@@ -65,7 +65,6 @@ function loginPage(req, res) {
     });
 }
 
-
 function login(req, res) {
     const username = req.body && req.body.username;
     const password = req.body && req.body.password;
