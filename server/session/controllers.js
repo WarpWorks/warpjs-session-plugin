@@ -1,8 +1,11 @@
 const _ = require('lodash');
 const bcrypt = require('bcrypt-nodejs');
+const hal = require('hal');
 const jwt = require('jsonwebtoken');
+const url = require('url');
 
 const config = require('./../config');
+const utils = require('./../utils');
 
 const MOCK_USERS = [{
     username: 'member',
@@ -44,11 +47,27 @@ function redirectToProperPage(req, res) {
     } else if (referrer) {
         // TODO: During logout, if user is in protected page, login out would
         // bring him to the login page.
-        res.redirect(referrer);
+        const referrerUrl = url.parse(referrer);
+
+        if (referrerUrl.host !== req.headers.host) {
+            // They logged in from another site?
+            res.redirect('/');
+        } else if (referrerUrl.pathname === '/session') {
+            // We are on the login form, so just send to home page.
+            res.redirect('/');
+        } else {
+            res.redirect(referrer);
+        }
     } else {
         res.redirect('/');
     }
 }
+
+const ERROR_MESSAGES = {
+    'invalid': "Failed authentication",
+    '401': "You are not authorized. Switch user?",
+    '403': "You must be logged in to continue"
+};
 
 function loginPage(req, res) {
     res.format({
@@ -57,6 +76,23 @@ function loginPage(req, res) {
                 title: 'Login',
                 bundle: 'session'
             });
+        },
+
+        'application/hal+json': () => {
+            const resource = new hal.Resource({
+                messages: {}
+            }, req.originalUrl);
+
+            resource.hideLoginHeader = true;
+
+            resource.redirectUrl = req.query.redirect;
+
+            resource.messages.error = ERROR_MESSAGES[req.query.error];
+            if (req.i3cUser) {
+                resource.messages.alreadyConnected = `Already logged in as '${req.i3cUser.username}'. Log in below to switch user.`;
+            }
+
+            utils.sendHal(req, res, resource);
         },
 
         'default': () => {
@@ -97,7 +133,12 @@ function login(req, res) {
     } else {
         res.format({
             html: () => {
-                res.redirect('/session?error=invalid');
+                const redirectUrl = utils.urlFormat('/session', {
+                    error: 'invalid',
+                    redirect: req.body.redirect
+                });
+
+                res.redirect(redirectUrl);
             },
 
             'application/hal+json': () => {
