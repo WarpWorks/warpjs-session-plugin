@@ -1,5 +1,4 @@
 const utils = require('./../../utils');
-
 const template = require('./../templates/index.hbs');
 
 (($) => {

@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const bcrypt = require('bcrypt-nodejs');
-const hal = require('hal');
 const jwt = require('jsonwebtoken');
 const url = require('url');
 
@@ -78,10 +77,10 @@ function loginPage(req, res) {
             });
         },
 
-        'application/hal+json': () => {
-            const resource = new hal.Resource({
+        [utils.HAL_CONTENT_TYPE]: () => {
+            const resource = utils.createResource(req, {
                 messages: {}
-            }, req.originalUrl);
+            });
 
             resource.hideLoginHeader = true;
 
@@ -105,6 +104,7 @@ function login(req, res) {
     const username = req.body && req.body.username;
     const password = req.body && req.body.password;
     const user = MOCK_USERS.find(validUser.bind(null, username, password));
+    // console.log("login(): user=", user);
 
     if (user) {
         const payload = {};
@@ -120,10 +120,10 @@ function login(req, res) {
                 redirectToProperPage(req, res);
             },
 
-            'application/hal+json': () => {
-                res.status(200)
-                    .header('Content-Type', 'application/hal+json')
-                    .json({some: "HAL data"});
+            [utils.HAL_CONTENT_TYPE]: () => {
+                const resource = utils.createResource(req, {
+                });
+                utils.sendHal(req, res, resource);
             },
 
             'default': () => {
@@ -135,16 +135,17 @@ function login(req, res) {
             html: () => {
                 const redirectUrl = utils.urlFormat('/session', {
                     error: 'invalid',
-                    redirect: req.body.redirect
+                    redirect: req.body.redirect || req.headers.referer
                 });
 
                 res.redirect(redirectUrl);
             },
 
-            'application/hal+json': () => {
-                res.status(403)
-                    .header('Content-Type', 'application/hal+json')
-                    .json({message: "Failed authentication"});
+            [utils.HAL_CONTENT_TYPE]: () => {
+                const resource = utils.createResource(req, {
+                    message: ERROR_MESSAGES.invalid
+                });
+                utils.sendHal(req, res, resource, 403);
             },
 
             'default': () => {
@@ -162,7 +163,7 @@ function logout(req, res) {
             redirectToProperPage(req, res);
         },
 
-        'application/hal+json': () => {
+        [utils.HAL_CONTENT_TYPE]: () => {
             res.status(204).send();
         },
 
