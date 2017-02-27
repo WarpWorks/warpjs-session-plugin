@@ -4,12 +4,17 @@ const config = require('./../config');
 const utils = require('./../utils');
 
 function i3cUser(req, res, next) {
-    const cookie = req.signedCookies[config.jwtCookieName];
+    if (req.signedCookies) {
+        const cookie = req.signedCookies[config.jwtCookieName];
 
-    if (cookie) {
-        const data = jwt.verify(cookie, config.jwtSecret);
-        if (data) {
-            req.i3cUser = data.user;
+        if (cookie) {
+            try {
+                const data = jwt.verify(cookie, config.jwtSecret);
+                req.i3cUser = data.user;
+            } catch (e) {
+                // TODO: Log this error
+                req.i3cUserInvalid = 'Invalid token';
+            }
         }
     }
     next();

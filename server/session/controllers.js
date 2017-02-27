@@ -156,7 +156,7 @@ function login(req, res) {
 }
 
 function logout(req, res) {
-    res.clearCookie('i3cPortalJWT');
+    res.clearCookie(config.jwtCookieName);
 
     res.format({
         'html': () => {
@@ -164,7 +164,9 @@ function logout(req, res) {
         },
 
         [utils.HAL_CONTENT_TYPE]: () => {
-            res.status(204).send();
+            res.status(204)
+                .header('Content-Type', utils.HAL_CONTENT_TYPE)
+                .send();
         },
 
         'default': () => {
