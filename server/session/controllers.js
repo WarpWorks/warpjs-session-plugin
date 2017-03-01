@@ -1,15 +1,10 @@
 const _ = require('lodash');
-// const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
 const url = require('url');
 
 const config = require('./../config');
-const utils = require('./../utils');
 const mongoData = require('./mongo-data');
-
-// function validUser(username, password, user) {
-//     return user.username === username && bcrypt.compareSync(password, user.password);
-// }
+const utils = require('./../utils');
 
 function redirectToProperPage(req, res) {
     const referrer = req.headers.referer;
@@ -77,9 +72,7 @@ function login(req, res) {
     const password = req.body && req.body.password;
 
     mongoData.getUserData(config.persistence, username, password)
-    .then((userResult) => {
-        if (userResult.length === 1) {
-            const user = userResult[0];
+        .then((user) => {
             const payload = {};
 
             // TODO: What other things we want to add here?
@@ -103,7 +96,8 @@ function login(req, res) {
                     res.status(406).send('Unknown accept');
                 }
             });
-        } else {
+        })
+        .catch(() => {
             res.format({
                 html: () => {
                     const redirectUrl = utils.urlFormat('/session', {
@@ -125,8 +119,7 @@ function login(req, res) {
                     res.status(406).send('Unknown accept');
                 }
             });
-        }
-    });
+        });
 }
 
 function logout(req, res) {
