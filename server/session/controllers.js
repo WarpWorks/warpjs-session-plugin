@@ -76,7 +76,7 @@ function login(req, res) {
             const payload = {};
 
             // TODO: What other things we want to add here?
-            payload.user = _.cloneDeep(_.omit(user, ['password']));
+            payload.user = _.cloneDeep(_.omit(user, ['Password']));
 
             const token = jwt.sign(payload, config.jwtSecret);
 
