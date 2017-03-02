@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const config = require('./../config');
+const pathInfo = require('./../path-info');
 const utils = require('./../utils');
 
 function i3cUser(req, res, next) {
@@ -22,7 +23,7 @@ function i3cUser(req, res, next) {
 
 function requiresI3cUser(perms, req, res, next) {
     if (!req.i3cUser) {
-        const redirectUrl = utils.urlFormat('/session', {
+        const redirectUrl = utils.urlFormat(pathInfo(pathInfo.SESSION), {
             error: '403',
             redirect: req.originalUrl
         });
