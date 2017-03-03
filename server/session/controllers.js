@@ -36,13 +36,8 @@ const ERROR_MESSAGES = {
 };
 
 function loginPage(req, res) {
-    res.format({
-        'html': () => {
-            res.status(200).render('index', {
-                title: 'Login',
-                bundle: 'session'
-            });
-        },
+    utils.wrapWith406(res, {
+        html: () => utils.sendIndex(res, 'Login', 'session'),
 
         [utils.HAL_CONTENT_TYPE]: () => {
             const resource = utils.createResource(req, {
@@ -59,10 +54,6 @@ function loginPage(req, res) {
             }
 
             utils.sendHal(req, res, resource);
-        },
-
-        'default': () => {
-            res.status(406).send('Unknown accept');
         }
     });
 }
@@ -81,7 +72,7 @@ function login(req, res) {
             const token = jwt.sign(payload, config.jwtSecret);
 
             res.cookie(config.jwtCookieName, token, { signed: true, httpOnly: true, sameSite: true });
-            res.format({
+            utils.wrapWith406(res, {
                 'html': () => {
                     redirectToProperPage(req, res);
                 },
@@ -90,15 +81,11 @@ function login(req, res) {
                     const resource = utils.createResource(req, {
                     });
                     utils.sendHal(req, res, resource);
-                },
-
-                'default': () => {
-                    res.status(406).send('Unknown accept');
                 }
             });
         })
         .catch(() => {
-            res.format({
+            utils.wrapWith406(res, {
                 html: () => {
                     const redirectUrl = utils.urlFormat('/session', {
                         error: 'invalid',
@@ -113,10 +100,6 @@ function login(req, res) {
                         message: ERROR_MESSAGES.invalid
                     });
                     utils.sendHal(req, res, resource, 403);
-                },
-
-                'default': () => {
-                    res.status(406).send('Unknown accept');
                 }
             });
         });
@@ -125,7 +108,7 @@ function login(req, res) {
 function logout(req, res) {
     res.clearCookie(config.jwtCookieName);
 
-    res.format({
+    utils.wrapWith406(res, {
         'html': () => {
             redirectToProperPage(req, res);
         },
@@ -134,10 +117,6 @@ function logout(req, res) {
             res.status(204)
                 .header('Content-Type', utils.HAL_CONTENT_TYPE)
                 .send();
-        },
-
-        'default': () => {
-            res.status(406).send('Unknown accept');
         }
     });
 }
