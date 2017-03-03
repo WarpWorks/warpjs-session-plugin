@@ -37,12 +37,7 @@ const ERROR_MESSAGES = {
 
 function loginPage(req, res) {
     utils.wrapWith406(res, {
-        'html': () => {
-            res.status(200).render('index', {
-                title: 'Login',
-                bundle: 'session'
-            });
-        },
+        html: () => utils.sendIndex(res, 'Login', 'session'),
 
         [utils.HAL_CONTENT_TYPE]: () => {
             const resource = utils.createResource(req, {
