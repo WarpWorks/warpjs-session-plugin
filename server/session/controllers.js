@@ -69,7 +69,10 @@ function login(req, res) {
             // TODO: What other things we want to add here?
             payload.user = _.cloneDeep(_.omit(user, ['Password']));
 
-            const token = jwt.sign(payload, config.jwtSecret);
+            const token = jwt.sign(payload, config.jwtSecret, {
+                algorithm: 'HS256',
+                expiresIn: '1d'
+            });
 
             res.cookie(config.jwtCookieName, token, { signed: true, httpOnly: true, sameSite: true });
             utils.wrapWith406(res, {

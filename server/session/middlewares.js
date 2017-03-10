@@ -10,7 +10,9 @@ function i3cUser(req, res, next) {
 
         if (cookie) {
             try {
-                const data = jwt.verify(cookie, config.jwtSecret);
+                const data = jwt.verify(cookie, config.jwtSecret, {
+                    algorithms: ['HS256']
+                });
                 req.i3cUser = data.user;
             } catch (e) {
                 // TODO: Log this error
