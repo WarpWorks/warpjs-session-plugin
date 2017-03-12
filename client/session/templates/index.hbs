@@ -1,8 +1,4 @@
-<div class="container-fluid">
-    {{> ../../common/templates/_header}}
-</div>
-
-<div class="container-fluid">
+{{#partial "content"}}
     <div class="row">
         <div class="col-md-12 text-center">
             <h1>{{title}}</h1>
@@ -66,8 +62,6 @@
         </div>
         <div class="col-md-2"></div>
     </div>
-</div>
+{{/partial}}
 
-<div class="container-fluid">
-    {{> ../../common/templates/_footer}}
-</div>
+{{> ../../common/templates/_page}}
