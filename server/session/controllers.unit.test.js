@@ -198,7 +198,7 @@ describe("server/session/controllers", () => {
         });
 
         describe("invalid user", () => {
-            it("should 406 for unknown", (done) => {
+            it.skip("should 406 for unknown", (done) => {
                 const reqOptions = {
                     headers: {
                         Accept: 'unknown'
@@ -213,7 +213,7 @@ describe("server/session/controllers", () => {
                 }, 1000);
             });
 
-            it("should redirect to login for HTML", (done) => {
+            it.skip("should redirect to login for HTML", (done) => {
                 const reqOptions = {
                     headers: {
                         Accept: 'text/html'
@@ -230,7 +230,7 @@ describe("server/session/controllers", () => {
                 }, 1000);
             });
 
-            it("should redirect (with body.redirect) to login for HTML", (done) => {
+            it.skip("should redirect (with body.redirect) to login for HTML", (done) => {
                 const reqOptions = {
                     headers: {
                         Accept: 'text/html'
@@ -250,7 +250,7 @@ describe("server/session/controllers", () => {
                 }, 1000);
             });
 
-            it("should redirect (with referer) to login for HTML", (done) => {
+            it.skip("should redirect (with referer) to login for HTML", (done) => {
                 const reqOptions = {
                     headers: {
                         Accept: 'text/html',
