@@ -178,7 +178,7 @@ describe("server/session/controllers", () => {
                 };
                 const {req, res} = testHelpers.createMocks(reqOptions);
                 req.i3cUser = {
-                    username: 'foobar'
+                    UserName: 'foobar'
                 };
 
                 controllers.loginPage(req, res);
