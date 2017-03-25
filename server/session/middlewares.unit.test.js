@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
-const testHelpers = require('node-test-helpers');
+const testHelpers = require('@quoin/node-test-helpers');
 
 const config = require('./../config');
 const middlewares = require('./middlewares');
