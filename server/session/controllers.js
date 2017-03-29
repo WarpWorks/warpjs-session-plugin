@@ -1,9 +1,11 @@
-const _ = require('lodash');
+const Promise = require('bluebird');
+const hs = require('HeadStart');
 const jwt = require('jsonwebtoken');
 const url = require('url');
 
 const config = require('./../config');
-const mongoData = require('./mongo-data');
+const pathInfo = require('./../path-info');
+const Persistence = require('./../persistence');
 const utils = require('./../utils');
 
 function redirectToProperPage(req, res) {
@@ -18,7 +20,7 @@ function redirectToProperPage(req, res) {
         if (referrerUrl.host !== req.headers.host) {
             // They logged in from another site?
             res.redirect('/');
-        } else if (referrerUrl.pathname === '/session') {
+        } else if (referrerUrl.pathname === pathInfo(pathInfo.SESSION)) {
             // We are on the login form, so just send to home page.
             res.redirect('/');
         } else {
@@ -62,12 +64,16 @@ function login(req, res) {
     const username = req.body && req.body.username;
     const password = req.body && req.body.password;
 
-    mongoData.getUserData(config.persistence, username, password)
-        .then((user) => {
-            const payload = {};
+    const persistence = new Persistence(config.persistence.host, config.domainName);
 
+    return Promise.resolve()
+        .then(() => hs.getDomainByName(config.domainName))
+        .then((domain) => domain.authenticateUser(persistence, username, password))
+        .then((user) => {
             // TODO: What other things we want to add here?
-            payload.user = _.cloneDeep(_.omit(user, ['Password']));
+            const payload = {
+                user
+            };
 
             const token = jwt.sign(payload, config.jwtSecret, {
                 algorithm: 'HS256',
@@ -90,7 +96,7 @@ function login(req, res) {
         .catch(() => {
             utils.wrapWith406(res, {
                 html: () => {
-                    const redirectUrl = utils.urlFormat('/session', {
+                    const redirectUrl = utils.urlFormat(pathInfo(pathInfo.SESSION), {
                         error: 'invalid',
                         redirect: req.body.redirect || req.headers.referer
                     });
@@ -105,6 +111,9 @@ function login(req, res) {
                     utils.sendHal(req, res, resource, 403);
                 }
             });
+        })
+        .finally(() => {
+            persistence.close();
         });
 }
 
