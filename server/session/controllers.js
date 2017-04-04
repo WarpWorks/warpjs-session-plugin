@@ -52,7 +52,7 @@ function loginPage(req, res) {
 
             resource.messages.error = ERROR_MESSAGES[req.query.error];
             if (req.i3cUser) {
-                resource.messages.alreadyConnected = `Already logged in as '${req.i3cUser.username}'. Log in below to switch user.`;
+                resource.messages.alreadyConnected = `Already logged in as '${req.i3cUser.UserName}'. Log in below to switch user.`;
             }
 
             utils.sendHal(req, res, resource);
