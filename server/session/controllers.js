@@ -2,10 +2,10 @@ const hs = require('@warp-works/core');
 const jwt = require('jsonwebtoken');
 const Persistence = require('@warp-works/warpjs-mongo-persistence');
 const Promise = require('bluebird');
+const routesInfo = require('@quoin/expressjs-routes-info');
 const url = require('url');
 
 const config = require('./../config');
-const pathInfo = require('./../path-info');
 const utils = require('./../utils');
 
 function redirectToProperPage(req, res) {
@@ -20,7 +20,7 @@ function redirectToProperPage(req, res) {
         if (referrerUrl.host !== req.headers.host) {
             // They logged in from another site?
             res.redirect('/');
-        } else if (referrerUrl.pathname === pathInfo(pathInfo.SESSION)) {
+        } else if (referrerUrl.pathname === routesInfo.expand('login')) {
             // We are on the login form, so just send to home page.
             res.redirect('/');
         } else {
@@ -96,7 +96,7 @@ function login(req, res) {
         .catch(() => {
             utils.wrapWith406(res, {
                 html: () => {
-                    const redirectUrl = utils.urlFormat(pathInfo(pathInfo.SESSION), {
+                    const redirectUrl = utils.urlFormat(routesInfo.expand('login'), {
                         error: 'invalid',
                         redirect: req.body.redirect || req.headers.referer
                     });

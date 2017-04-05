@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
+const routesInfo = require('@quoin/expressjs-routes-info');
 
 const config = require('./../config');
-const pathInfo = require('./../path-info');
 const utils = require('./../utils');
 
 function i3cUser(req, res, next) {
@@ -25,7 +25,7 @@ function i3cUser(req, res, next) {
 
 function requiresI3cUser(perms, req, res, next) {
     if (!req.i3cUser) {
-        const redirectUrl = utils.urlFormat(pathInfo(pathInfo.SESSION), {
+        const redirectUrl = utils.urlFormat(routesInfo.expand('login'), {
             error: '403',
             redirect: req.originalUrl
         });
