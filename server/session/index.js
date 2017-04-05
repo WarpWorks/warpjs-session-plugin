@@ -1,7 +1,7 @@
 const middlewares = require('./middlewares');
-const router = require('./router');
+const routesInfo = require('./routes-info');
 
 module.exports = {
     middlewares,
-    router
+    routesInfo
 };
