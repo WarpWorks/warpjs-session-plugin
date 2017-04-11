@@ -16,11 +16,11 @@ describe("server/session/middlewares", () => {
     it("should expose known properties", () => {
         const clone = _.clone(middlewares);
 
-        expect(clone).to.have.property('i3cUser');
-        delete clone.i3cUser;
-
-        expect(clone).to.have.property('requiresI3cUser');
-        delete clone.requiresI3cUser;
+        testHelpers.verifyProperties(clone, undefined, [
+            'i3cUser',
+            'requiresI3cUser',
+            'unauthorized'
+        ]);
 
         expect(clone).to.deep.equal({});
     });
@@ -94,8 +94,8 @@ describe("server/session/middlewares", () => {
     });
 
     describe("requiresI3cUser()", () => {
-        it("should be a function with 4 params", () => {
-            expect(middlewares.requiresI3cUser).to.be.a('function').to.have.lengthOf(4);
+        it("should be a function with 3 params", () => {
+            expect(middlewares.requiresI3cUser).to.be.a('function').to.have.lengthOf(3);
         });
 
         it("should redirect if not logged in", () => {
@@ -105,11 +105,11 @@ describe("server/session/middlewares", () => {
             const {req, res} = testHelpers.createMocks(reqOptions);
             const next = testHelpers.stub();
             const expectedRedirect = utils.urlFormat('/session', {
-                error: '403',
+                error: '401',
                 redirect: '/some/original/url'
             });
 
-            middlewares.requiresI3cUser(undefined, req, res, next);
+            middlewares.requiresI3cUser(req, res, next);
 
             expect(next).not.to.have.been.called();
             expect(res._getStatusCode()).to.equal(302);
@@ -125,9 +125,13 @@ describe("server/session/middlewares", () => {
 
             req.i3cUser = {};
 
-            middlewares.requiresI3cUser(undefined, req, res, next);
+            middlewares.requiresI3cUser(req, res, next);
 
             expect(next).to.have.been.called();
         });
+    });
+
+    describe("unauthorized", () => {
+        it.skip("TODO");
     });
 });

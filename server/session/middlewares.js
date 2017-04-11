@@ -23,20 +23,29 @@ function i3cUser(req, res, next) {
     next();
 }
 
-function requiresI3cUser(perms, req, res, next) {
+function requiresI3cUser(req, res, next) {
     if (!req.i3cUser) {
         const redirectUrl = utils.urlFormat(routesInfo.expand('login'), {
-            error: '403',
+            error: '401',
             redirect: req.originalUrl
         });
         res.redirect(redirectUrl);
     } else {
-        // TODO: Need to check permissions.
         next();
     }
 }
 
+function unauthorized(err, req, res, next) {
+    console.log("err=", err);
+    const redirectUrl = utils.urlFormat(routesInfo.expand('login'), {
+        error: 403,
+        redirect: req.originalUrl
+    });
+    res.redirect(redirectUrl);
+}
+
 module.exports = {
     i3cUser,
-    requiresI3cUser
+    requiresI3cUser,
+    unauthorized
 };
