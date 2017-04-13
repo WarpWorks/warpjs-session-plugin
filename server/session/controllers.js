@@ -1,11 +1,11 @@
-const Promise = require('bluebird');
 const hs = require('HeadStart');
 const jwt = require('jsonwebtoken');
+const Persistence = require('@dslama/mongo-persistence');
+const Promise = require('bluebird');
 const url = require('url');
 
 const config = require('./../config');
 const pathInfo = require('./../path-info');
-const Persistence = require('./../persistence');
 const utils = require('./../utils');
 
 function redirectToProperPage(req, res) {
