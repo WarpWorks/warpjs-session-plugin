@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
+const routesInfo = require('@quoin/expressjs-routes-info');
 
 const config = require('./../config');
-const pathInfo = require('./../path-info');
 const utils = require('./../utils');
 
 function i3cUser(req, res, next) {
@@ -23,20 +23,29 @@ function i3cUser(req, res, next) {
     next();
 }
 
-function requiresI3cUser(perms, req, res, next) {
+function requiresI3cUser(req, res, next) {
     if (!req.i3cUser) {
-        const redirectUrl = utils.urlFormat(pathInfo(pathInfo.SESSION), {
-            error: '403',
+        const redirectUrl = utils.urlFormat(routesInfo.expand('login'), {
+            error: '401',
             redirect: req.originalUrl
         });
         res.redirect(redirectUrl);
     } else {
-        // TODO: Need to check permissions.
         next();
     }
 }
 
+function unauthorized(err, req, res, next) {
+    console.log("err=", err);
+    const redirectUrl = utils.urlFormat(routesInfo.expand('login'), {
+        error: 403,
+        redirect: req.originalUrl
+    });
+    res.redirect(redirectUrl);
+}
+
 module.exports = {
     i3cUser,
-    requiresI3cUser
+    requiresI3cUser,
+    unauthorized
 };

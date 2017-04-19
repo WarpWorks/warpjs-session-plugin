@@ -146,7 +146,7 @@ describe("server/session/controllers", () => {
                 const data = res._getData();
 
                 specUtils.verifyHal(expect, data);
-                expect(data.messages.error).to.equal("You are not authorized. Switch user?");
+                expect(data.messages.error).to.equal("You must be logged in to continue");
             });
 
             it("should add login message if 403", () => {
@@ -166,7 +166,7 @@ describe("server/session/controllers", () => {
                 const data = res._getData();
 
                 specUtils.verifyHal(expect, data);
-                expect(data.messages.error).to.equal("You must be logged in to continue");
+                expect(data.messages.error).to.equal("You are not authorized. Switch user?");
             });
 
             it("should add already logged in message if i3cUser", () => {
