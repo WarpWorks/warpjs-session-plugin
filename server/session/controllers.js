@@ -33,8 +33,8 @@ function redirectToProperPage(req, res) {
 
 const ERROR_MESSAGES = {
     invalid: "Failed authentication",
-    401: "You are not authorized. Switch user?",
-    403: "You must be logged in to continue"
+    401: "You must be logged in to continue",
+    403: "You are not authorized. Switch user?"
 };
 
 function loginPage(req, res) {
