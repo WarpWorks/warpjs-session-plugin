@@ -1,6 +1,6 @@
-const hs = require('HeadStart');
+const hs = require('@warp-works/core');
 const jwt = require('jsonwebtoken');
-const Persistence = require('@dslama/mongo-persistence');
+const Persistence = require('@warp-works/warpjs-mongo-persistence');
 const Promise = require('bluebird');
 const url = require('url');
 
@@ -32,9 +32,9 @@ function redirectToProperPage(req, res) {
 }
 
 const ERROR_MESSAGES = {
-    'invalid': "Failed authentication",
-    '401': "You are not authorized. Switch user?",
-    '403': "You must be logged in to continue"
+    invalid: "Failed authentication",
+    401: "You are not authorized. Switch user?",
+    403: "You must be logged in to continue"
 };
 
 function loginPage(req, res) {
@@ -82,7 +82,7 @@ function login(req, res) {
 
             res.cookie(config.jwtCookieName, token, { signed: true, httpOnly: true, sameSite: true });
             utils.wrapWith406(res, {
-                'html': () => {
+                html: () => {
                     redirectToProperPage(req, res);
                 },
 
@@ -121,7 +121,7 @@ function logout(req, res) {
     res.clearCookie(config.jwtCookieName);
 
     utils.wrapWith406(res, {
-        'html': () => {
+        html: () => {
             redirectToProperPage(req, res);
         },
 
