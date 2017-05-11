@@ -1,9 +1,10 @@
-const hs = require('@warp-works/core');
+const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
 const Persistence = require('@warp-works/warpjs-mongo-persistence');
 const Promise = require('bluebird');
 const routesInfo = require('@quoin/expressjs-routes-info');
 const url = require('url');
+const warpCore = require('@warp-works/core');
 
 const config = require('./../config');
 const utils = require('./../utils');
@@ -67,8 +68,32 @@ function login(req, res) {
     const persistence = new Persistence(config.persistence.host, config.domainName);
 
     return Promise.resolve()
-        .then(() => hs.getDomainByName(config.domainName))
+        .then(() => warpCore.getDomainByName(config.domainName))
         .then((domain) => domain.authenticateUser(persistence, username, password))
+        .then(
+            (user) => user,
+            (error) => {
+                // Could not find the user, but let's try to see if it's the
+                // admin login.
+                if (config.admin &&
+                        config.admin.username === username &&
+                        bcrypt.compareSync(password, config.admin.password)
+                        ) {
+                    // TODO: This reflect a real user
+                    return {
+                        Name: "Default admin",
+                        Roles: [{
+                            type: "Role",
+                            label: "admin"
+                        }],
+                        UserName: "admin",
+                        type: "User",
+                        _id: "-1"
+                    };
+                }
+                throw error;
+            }
+        )
         .then((user) => {
             // TODO: What other things we want to add here?
             const payload = {
