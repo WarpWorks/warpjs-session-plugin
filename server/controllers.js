@@ -78,7 +78,7 @@ function login(req, res) {
                 if (config.admin &&
                         config.admin.username === username &&
                         bcrypt.compareSync(password, config.admin.password)
-                        ) {
+                ) {
                     // TODO: This reflect a real user
                     return {
                         Name: "Default admin",

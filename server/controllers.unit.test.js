@@ -1,9 +1,9 @@
 const _ = require('lodash');
 const testHelpers = require('@quoin/node-test-helpers');
+const warpjsUtils = require('@warp-works/warpjs-utils');
 
 const config = require('./../config');
 const controllers = require('./controllers');
-const utils = require('./../utils');
 const specUtils = require('./../utils.helpers.test');
 
 const expect = testHelpers.expect;
@@ -69,7 +69,7 @@ describe("server/session/controllers", () => {
                 const reqOptions = {
                     url: '/some/original/url',
                     headers: {
-                        Accept: utils.HAL_CONTENT_TYPE
+                        Accept: warpjsUtils.constants.HAL_CONTENT_TYPE
                     }
                 };
                 const {req, res} = testHelpers.createMocks(reqOptions);
@@ -78,7 +78,7 @@ describe("server/session/controllers", () => {
 
                 expect(res._getStatusCode()).to.equal(200);
                 expect(res._getHeaders()).to.deep.equal({
-                    'Content-Type': utils.HAL_CONTENT_TYPE
+                    'Content-Type': warpjsUtils.constants.HAL_CONTENT_TYPE
                 });
 
                 const data = res._getData();
@@ -93,7 +93,7 @@ describe("server/session/controllers", () => {
                 const reqOptions = {
                     url: '/some/original/url',
                     headers: {
-                        Accept: utils.HAL_CONTENT_TYPE
+                        Accept: warpjsUtils.constants.HAL_CONTENT_TYPE
                     },
                     query: {
                         redirect: '/some/redirect'
@@ -113,7 +113,7 @@ describe("server/session/controllers", () => {
                 const reqOptions = {
                     url: '/some/original/url',
                     headers: {
-                        Accept: utils.HAL_CONTENT_TYPE
+                        Accept: warpjsUtils.constants.HAL_CONTENT_TYPE
                     },
                     query: {
                         error: 'invalid'
@@ -133,7 +133,7 @@ describe("server/session/controllers", () => {
                 const reqOptions = {
                     url: '/some/original/url',
                     headers: {
-                        Accept: utils.HAL_CONTENT_TYPE
+                        Accept: warpjsUtils.constants.HAL_CONTENT_TYPE
                     },
                     query: {
                         error: '401'
@@ -153,7 +153,7 @@ describe("server/session/controllers", () => {
                 const reqOptions = {
                     url: '/some/original/url',
                     headers: {
-                        Accept: utils.HAL_CONTENT_TYPE
+                        Accept: warpjsUtils.constants.HAL_CONTENT_TYPE
                     },
                     query: {
                         error: '403'
@@ -173,7 +173,7 @@ describe("server/session/controllers", () => {
                 const reqOptions = {
                     url: '/some/original/url',
                     headers: {
-                        Accept: utils.HAL_CONTENT_TYPE
+                        Accept: warpjsUtils.constants.HAL_CONTENT_TYPE
                     }
                 };
                 const {req, res} = testHelpers.createMocks(reqOptions);
@@ -302,7 +302,7 @@ describe("server/session/controllers", () => {
         it("should 204 for HAL", () => {
             const reqOptions = {
                 headers: {
-                    Accept: utils.HAL_CONTENT_TYPE
+                    Accept: warpjsUtils.constants.HAL_CONTENT_TYPE
                 }
             };
             const {req, res} = testHelpers.createMocks(reqOptions);
@@ -312,7 +312,7 @@ describe("server/session/controllers", () => {
             expect(res._getStatusCode()).to.equal(204);
             expect(res._getData()).to.equal('');
             expect(res._getHeaders()).to.deep.equal({
-                'Content-Type': utils.HAL_CONTENT_TYPE
+                'Content-Type': warpjsUtils.constants.HAL_CONTENT_TYPE
             });
         });
 
