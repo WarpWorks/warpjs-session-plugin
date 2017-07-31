@@ -51,7 +51,8 @@ module.exports = {
             }
         },
         src: [
-            'lib/**/*.test.js'
+            'client/**/*.test.js',
+            'server/**/*.test.js'
         ]
     }
 
