@@ -1,6 +1,6 @@
+const RoutesInfo = require('@quoin/expressjs-routes-info');
 const RoutesInfoCache = require('@quoin/expressjs-routes-info/lib/cache');
 const testHelpers = require('@quoin/node-test-helpers');
-const warpjsUtils = require('@warp-works/warpjs-utils');
 
 const app = require('./../app');
 const constants = require('./../constants');
@@ -34,7 +34,7 @@ describe("server/middlewares/requires-warpjs-user", () => {
         };
         const {req, res} = testHelpers.createMocks(reqOptions);
         const next = testHelpers.stub();
-        const expectedRedirect = warpjsUtils.urlFormat('/test', {
+        const expectedRedirect = RoutesInfo.expand('W2:plugin:session:login', {
             error: '401',
             redirect: '/some/original/url'
         });

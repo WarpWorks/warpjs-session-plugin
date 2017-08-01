@@ -19,9 +19,13 @@ function verifyHal(expect, data) {
     expect(data).to.have.property('copyrightYear').to.equal((new Date()).getFullYear());
 }
 
-function requestApp() {
+function initApp(config = {}, warpCore = {}) {
+    return app(config, warpCore, Persistence, '/test', '/static-test');
+}
+
+function requestApp(config = {}, warpCore = {}) {
     require('@quoin/expressjs-routes-info/lib/cache').reset();
-    return testHelpers.request(app(Persistence, '/test', '/static-test'));
+    return testHelpers.request(initApp(config, warpCore));
 }
 
 function expect406(err) {
@@ -31,6 +35,7 @@ function expect406(err) {
 
 module.exports = {
     expect406,
+    initApp,
     requestApp,
     verifyHal
 };

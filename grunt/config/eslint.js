@@ -15,6 +15,7 @@ module.exports = {
         },
         src: [
             '*.js',
+            '!*.test.js',
             'grunt/**/*.js',
             'lib/**/*.js',
             '!lib/**/*.test.js',
@@ -51,6 +52,7 @@ module.exports = {
             }
         },
         src: [
+            '*.test.js',
             'client/**/*.test.js',
             'server/**/*.test.js'
         ]

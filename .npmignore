@@ -1,0 +1,9 @@
+/**/*.test.js
+/.*rc
+/*.tgz
+/.npmignore
+/.nyc_output
+/client
+/grunt
+/Gruntfile.js
+/reports

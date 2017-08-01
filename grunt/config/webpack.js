@@ -8,7 +8,7 @@ module.exports = {
         target: 'web',
         devtool: 'source-map',
         entry: {
-            app: './client/index.js'
+            session: './client/index.js'
         },
         node: {
             fs: 'empty'

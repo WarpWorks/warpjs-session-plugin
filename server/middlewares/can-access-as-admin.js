@@ -4,6 +4,6 @@ function hasAdminRole(config, role) {
     return role.label === config.roles.admin;
 }
 
-module.exports = (config, warpCore, Persistence) => {
-    return canAccess.bind(null, hasAdminRole.bind(null, config), config, warpCore, Persistence);
+module.exports = (config, warpCore, Persistence, req, res, next) => {
+    return canAccess(hasAdminRole.bind(null, config), config, warpCore, Persistence, req, res, next);
 };

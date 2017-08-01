@@ -48,9 +48,11 @@ describe("server/controllers/login-page", () => {
             }
         };
         const {req, res} = testHelpers.createMocks(reqOptions);
-        res.app = {
+        const app = {
             get: (key) => key
         };
+        req.app = app;
+        res.app = app;
 
         moduleToTest(config, warpCore, Persistence, req, res);
 
@@ -61,10 +63,10 @@ describe("server/controllers/login-page", () => {
             baseUrl: 'base-url',
             staticUrl: 'static-url',
             bundles: [
-                'static-url/app/vendor.js',
-                'static-url/app/session.js'
+                'base-url/assets/vendor.min.js',
+                'base-url/assets/session.min.js'
             ],
-            cssFile: undefined
+            cssFile: 'base-url/assets/session.min.css'
         });
     });
 

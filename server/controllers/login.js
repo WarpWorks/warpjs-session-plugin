@@ -1,9 +1,11 @@
+const Promise = require('bluebird');
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
 const RoutesInfo = require('@quoin/expressjs-routes-info');
 const warpjsUtils = require('@warp-works/warpjs-utils');
 
 const constants = require('./../constants');
+const redirect = require('./../redirect');
 const redirectToProperPage = require('./redirect-to-proper-page');
 
 module.exports = (config, warpCore, Persistence, req, res) => {
@@ -66,12 +68,7 @@ module.exports = (config, warpCore, Persistence, req, res) => {
         .catch(() => {
             warpjsUtils.wrapWith406(res, {
                 html: () => {
-                    const redirectUrl = warpjsUtils.urlFormat(RoutesInfo.expand('W2:plugin:session:login'), {
-                        error: 'invalid',
-                        redirect: req.body.redirect || req.headers.referer
-                    });
-
-                    res.redirect(redirectUrl);
+                    redirect(res, 'invalid', req.body.redirect || req.headers.referer);
                 },
 
                 [warpjsUtils.constants.HAL_CONTENT_TYPE]: () => {

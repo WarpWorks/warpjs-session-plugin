@@ -14,9 +14,12 @@ Add the following configuration section to your project:
         "name": "@warp-works/warpjs-session-plugin",
         "path": "/session",
         "config": {
-          "cookieSecret": "YourServerSecretToSignCookie",
           "jwtSecret": "YourJsonWebTokenSecret",
           "jwtCookieName": "NameOfYourJsonWebTokenCookie"
+          "roles": {
+            "admin": "admin",
+            "content": "content"
+          },
           "admin": {
             "username": "defaultAdminUsername",
             "password": "bcryptPasswordForDefaultAdmin"

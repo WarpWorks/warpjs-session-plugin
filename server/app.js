@@ -1,3 +1,4 @@
+const bodyParser = require('body-parser');
 const express = require('express');
 const path = require('path');
 
@@ -12,6 +13,11 @@ module.exports = (config, warpCore, Persistence, baseUrl, staticUrl) => {
 
     app.set('base-url', baseUrl);
     app.set('static-url', staticUrl);
+
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
 
     app.use('/assets', express.static(path.join(repoRoot, 'assets')));
 

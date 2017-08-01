@@ -5,7 +5,17 @@ const constants = require('./../constants');
 
 module.exports = (config, warpCore, Persistence, req, res) => {
     warpjsUtils.wrapWith406(res, {
-        html: () => warpjsUtils.sendIndex(res, 'Login', 'session'),
+        html: () => {
+            const baseUrl = req.app.get('base-url');
+
+            warpjsUtils.sendIndex(res, 'Login',
+                [
+                    `${baseUrl}/assets/vendor.min.js`,
+                    `${baseUrl}/assets/session.min.js`
+                ],
+                `${baseUrl}/assets/session.min.css`
+            );
+        },
 
         [warpjsUtils.constants.HAL_CONTENT_TYPE]: () => {
             const resource = warpjsUtils.createResource(req, {

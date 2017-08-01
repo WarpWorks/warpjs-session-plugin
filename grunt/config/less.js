@@ -4,7 +4,7 @@ module.exports = {
             compress: true
         },
         files: [{
-            dest: 'assets/style.min.css',
+            dest: 'assets/session.min.css',
             src: 'client/style.less'
         }]
     }
