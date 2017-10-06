@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const warpjsUtils = require('@warp-works/warpjs-utils');
 
 const projectDir = path.dirname(require.resolve('./../../package.json'));
 
@@ -37,7 +38,10 @@ module.exports = {
                     loader: 'handlebars-loader',
                     query: {
                         helperDirs: [
-                            `${projectDir}/client/helpers`
+                            warpjsUtils.getHandlebarsHelpersDir()
+                        ],
+                        partialDirs: [
+                            warpjsUtils.getHandlebarsPartialsDir()
                         ]
                     }
                 }
