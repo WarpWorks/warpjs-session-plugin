@@ -65,15 +65,16 @@ module.exports = (config, warpCore, Persistence, req, res) => {
                 }
             });
         })
-        .catch(() => {
+        .catch((err) => {
             warpjsUtils.wrapWith406(res, {
                 html: () => {
-                    redirect(res, 'invalid', req.body.redirect || req.headers.referer);
+                    redirect(res, 'invalid', (req.body && req.body.redirect) || req.headers.referer);
                 },
 
                 [warpjsUtils.constants.HAL_CONTENT_TYPE]: () => {
                     const resource = warpjsUtils.createResource(req, {
-                        message: constants.ERROR_MESSAGES.invalid
+                        message: constants.ERROR_MESSAGES.invalid,
+                        originalMessage: err.message
                     });
                     warpjsUtils.sendHal(req, res, resource, RoutesInfo, 403);
                 }

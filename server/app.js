@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const path = require('path');
+const warpjsUtils = require('@warp-works/warpjs-utils');
 
 const routes = require('./routes');
 
@@ -11,6 +12,8 @@ module.exports = (config, warpCore, Persistence, baseUrl, staticUrl) => {
 
     baseUrl = (baseUrl === '/') ? '' : baseUrl;
 
+    app.set('view engine', 'hbs');
+    app.set('views', warpjsUtils.getHandlebarsViewsDir());
     app.set('base-url', baseUrl);
     app.set('static-url', staticUrl);
 

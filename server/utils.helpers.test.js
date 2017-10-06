@@ -6,17 +6,22 @@ const app = require('./app');
 
 const expect = testHelpers.expect;
 
+const EXPECTED_COPYRIGHT_YEAR = (new Date()).getFullYear();
+
 function verifyEachLink(expect, link) {
-    expect(link).to.have.property('href').to.be.a('string');
+    expect(link).to.have.property('href');
+    expect(link.href).to.be.a('string');
 }
 
 function verifyHal(expect, data) {
-    expect(data).to.have.property('_links').to.be.an('object');
+    expect(data).to.have.property('_links');
+    expect(data._links).to.be.an('object');
 
     _.forEach(data._links, verifyEachLink.bind(null, expect));
 
     // We always have the copyrightYear
-    expect(data).to.have.property('copyrightYear').to.equal((new Date()).getFullYear());
+    expect(data).to.have.property('copyrightYear');
+    expect(data.copyrightYear).to.equal(EXPECTED_COPYRIGHT_YEAR);
 }
 
 function initApp(config = {}, warpCore = {}) {

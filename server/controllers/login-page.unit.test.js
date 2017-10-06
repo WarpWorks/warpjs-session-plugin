@@ -210,8 +210,8 @@ describe("server/controllers/login-page", () => {
             const data = res._getData();
 
             specUtils.verifyHal(expect, data);
-            expect(data.messages).to.have.property('alreadyConnected')
-                .to.equal("Already logged in as 'foobar'. Log in below to switch user.");
+            expect(data.messages).to.have.property('alreadyConnected');
+            expect(data.messages.alreadyConnected).to.equal("Already logged in as 'foobar'. Log in below to switch user.");
         });
     });
 });
