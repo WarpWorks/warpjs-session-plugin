@@ -1,6 +1,6 @@
 {
   "name": "@warp-works/warpjs-session-plugin",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Session Management plug-in for WarpJS",
   "main": "index.js",
   "scripts": {
@@ -60,7 +60,7 @@
     "eslint-plugin-node": "5.2.0",
     "eslint-plugin-promise": "3.5.0",
     "eslint-plugin-standard": "3.0.1",
-    "express": "4.16.1",
+    "express": "4.16.x",
     "grunt": "1.0.1",
     "grunt-cli": "latest",
     "grunt-contrib-clean": "1.1.0",
@@ -80,6 +80,6 @@
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "3.5.1",
-    "jsonwebtoken": "8.0.1"
+    "jsonwebtoken": "8.1.0"
   }
 }

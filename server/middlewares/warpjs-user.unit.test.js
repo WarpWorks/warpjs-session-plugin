@@ -24,7 +24,7 @@ describe("server/middlewares/warpjs-user", () => {
         expect(moduleToTest).to.be.a('function').to.have.lengthOf(6);
     });
 
-    it("should not add 'i3cUser' when no signedCookies", () => {
+    it("should not add 'warpjsUser' when no signedCookies", () => {
         const reqOptions = {};
         const {req, res} = testHelpers.createMocks(reqOptions);
         const next = testHelpers.stub();
@@ -32,10 +32,10 @@ describe("server/middlewares/warpjs-user", () => {
         moduleToTest(config, warpCore, Persistence, req, res, next);
 
         expect(next).to.have.been.called();
-        expect(req.i3cUser).to.be.undefined();
+        expect(req.warpjsUser).to.be.undefined();
     });
 
-    it("should not add 'i3cUser' when no jwt cookie", () => {
+    it("should not add 'warpjsUser' when no jwt cookie", () => {
         const reqOptions = {
             signedCookies: {
             }
@@ -46,10 +46,10 @@ describe("server/middlewares/warpjs-user", () => {
         moduleToTest(config, warpCore, Persistence, req, res, next);
 
         expect(next).to.have.been.called();
-        expect(req.i3cUser).to.be.undefined();
+        expect(req.warpjsUser).to.be.undefined();
     });
 
-    it("should not add 'i3cUser' when jwt cookie invalid", () => {
+    it("should not add 'warpjsUser' when jwt cookie invalid", () => {
         const reqOptions = {
             signedCookies: {
                 [config.jwtCookieName]: 'invalid'
@@ -61,10 +61,10 @@ describe("server/middlewares/warpjs-user", () => {
         moduleToTest(config, warpCore, Persistence, req, res, next);
 
         expect(next).to.have.been.called();
-        expect(req.i3cUser).to.be.undefined();
+        expect(req.warpjsUser).to.be.undefined();
     });
 
-    it("should add 'i3cUser' when jwt cookie valid", () => {
+    it("should add 'warpjsUser' when jwt cookie valid", () => {
         const payload = {
             user: {
                 username: 'foo',

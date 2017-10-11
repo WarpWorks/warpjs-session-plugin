@@ -1,5 +1,9 @@
 # Releases
 
+## 0.2.2 - 2017-10-11
+
+- Update warpjs-utils.
+
 ## 0.2.1 - 2017-10-06
 
 - Fixed to use partials and helpers from warpjs-utils.
