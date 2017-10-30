@@ -1,5 +1,10 @@
 # Releases
 
+## 0.3.0 - 2017-10-30
+
+- Moving session management of users into the plugin instead of core. Password
+  fields are now encrypted.
+
 ## 0.2.2 - 2017-10-11
 
 - Update warpjs-utils.

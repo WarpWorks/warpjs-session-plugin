@@ -1,9 +1,9 @@
 const Promise = require('bluebird');
-const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
 const RoutesInfo = require('@quoin/expressjs-routes-info');
 const warpjsUtils = require('@warp-works/warpjs-utils');
 
+const auth = require('./../auth');
 const constants = require('./../constants');
 const redirect = require('./../redirect');
 const redirectToProperPage = require('./redirect-to-proper-page');
@@ -15,32 +15,7 @@ module.exports = (config, warpCore, Persistence, req, res) => {
     const persistence = new Persistence(config.persistence.host, config.persistence.name);
 
     return Promise.resolve()
-        .then(() => warpCore.getDomainByName(config.domainName))
-        .then((domain) => domain.authenticateUser(persistence, username, password))
-        .then(
-            (user) => user,
-            (error) => {
-                // Could not find the user, but let's try to see if it's the
-                // admin login.
-                if (config.admin &&
-                        config.admin.username === username &&
-                        bcrypt.compareSync(password, config.admin.password)
-                ) {
-                    // TODO: This reflect a real user
-                    return {
-                        Name: "Default admin",
-                        Roles: [{
-                            type: "Role",
-                            label: "admin"
-                        }],
-                        UserName: "admin",
-                        type: "User",
-                        _id: "-1"
-                    };
-                }
-                throw error;
-            }
-        )
+        .then(() => auth(config, warpCore, persistence, username, password))
         .then((user) => {
             // TODO: What other things we want to add here?
             const payload = {
@@ -65,22 +40,19 @@ module.exports = (config, warpCore, Persistence, req, res) => {
                 }
             });
         })
-        .catch((err) => {
-            warpjsUtils.wrapWith406(res, {
-                html: () => {
-                    redirect(res, 'invalid', (req.body && req.body.redirect) || req.headers.referer);
-                },
+        .catch((err) => warpjsUtils.wrapWith406(res, {
+            html: () => {
+                redirect(res, 'invalid', (req.body && req.body.redirect) || req.headers.referer);
+            },
 
-                [warpjsUtils.constants.HAL_CONTENT_TYPE]: () => {
-                    const resource = warpjsUtils.createResource(req, {
-                        message: constants.ERROR_MESSAGES.invalid,
-                        originalMessage: err.message
-                    });
-                    warpjsUtils.sendHal(req, res, resource, RoutesInfo, 403);
-                }
-            });
-        })
-        .finally(() => {
-            persistence.close();
-        });
+            [warpjsUtils.constants.HAL_CONTENT_TYPE]: () => {
+                const resource = warpjsUtils.createResource(req, {
+                    message: constants.ERROR_MESSAGES.invalid,
+                    originalMessage: err.message
+                });
+                warpjsUtils.sendHal(req, res, resource, RoutesInfo, 403);
+            }
+        }))
+        .finally(() => persistence.close())
+    ;
 };
