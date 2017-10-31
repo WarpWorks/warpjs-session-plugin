@@ -24,6 +24,7 @@ module.exports = (config, persistence, entity, username, password) => {
                     .then(() => userInfo(persistence, entity, accountInstance))
                 ;
             } else {
+                // TODO: We should log this to track attacks?
                 console.log(`Account '${username}' not found.`);
                 throw new Error();
             }

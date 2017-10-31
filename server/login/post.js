@@ -6,11 +6,14 @@ const warpjsUtils = require('@warp-works/warpjs-utils');
 const auth = require('./../auth');
 const constants = require('./../constants');
 const redirect = require('./../redirect');
-const redirectToProperPage = require('./redirect-to-proper-page');
+const redirectToProperPage = require('./../redirect-to-proper-page');
 
-module.exports = (config, warpCore, Persistence, req, res) => {
+module.exports = (req, res) => {
     const username = req.body && req.body.username;
     const password = req.body && req.body.password;
+    const config = req.app.get('warpjs-config');
+    const warpCore = req.app.get('warpjs-core');
+    const Persistence = req.app.get('warpjs-persistence');
 
     const persistence = new Persistence(config.persistence.host, config.persistence.name);
 

@@ -1,5 +1,9 @@
 # Releases
 
+## 0.3.1 - 2017-10-31
+
+- Restructured code to be more lisible.
+
 ## 0.3.0 - 2017-10-30
 
 - Moving session management of users into the plugin instead of core. Password

@@ -4,12 +4,10 @@ const requiresWarpjsUser = require('./requires-warpjs-user');
 const unauthorized = require('./unauthorized');
 const warpjsUser = require('./warpjs-user');
 
-module.exports = (config, warpCore, Persistence) => {
-    return {
-        canAccessAsAdmin: canAccessAsAdmin.bind(null, config, warpCore, Persistence),
-        canAccessAsContentManager: canAccessAsContentManager.bind(null, config, warpCore, Persistence),
-        requiresWarpjsUser: requiresWarpjsUser.bind(null, config, warpCore, Persistence),
-        unauthorized: unauthorized.bind(null, config, warpCore, Persistence),
-        warpjsUser: warpjsUser.bind(null, config, warpCore, Persistence)
-    };
-};
+module.exports = (config, warpCore, Persistence) => ({
+    canAccessAsAdmin: (req, res, next) => canAccessAsAdmin(config, warpCore, Persistence, req, res, next),
+    canAccessAsContentManager: (req, res, next) => canAccessAsContentManager(config, warpCore, Persistence, req, res, next),
+    requiresWarpjsUser: (req, res, next) => requiresWarpjsUser(config, warpCore, Persistence, req, res, next),
+    unauthorized: (err, req, res, next) => unauthorized(config, warpCore, Persistence, err, req, res, next),
+    warpjsUser: (req, res, next) => warpjsUser(config, warpCore, Persistence, req, res, next)
+});

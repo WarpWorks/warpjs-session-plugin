@@ -3,7 +3,7 @@ const warpjsUtils = require('@warp-works/warpjs-utils');
 
 const constants = require('./../constants');
 
-module.exports = (config, warpCore, Persistence, req, res) => {
+module.exports = (req, res) => {
     warpjsUtils.wrapWith406(res, {
         html: () => {
             const baseUrl = req.app.get('base-url');

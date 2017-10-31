@@ -1,8 +1,10 @@
 const warpjsUtils = require('@warp-works/warpjs-utils');
 
-const redirectToProperPage = require('./redirect-to-proper-page');
+const redirectToProperPage = require('./../redirect-to-proper-page');
 
-module.exports = (config, warpCore, Persistence, req, res) => {
+module.exports = (req, res) => {
+    const config = req.app.get('warpjs-config');
+
     res.clearCookie(config.jwtCookieName);
 
     warpjsUtils.wrapWith406(res, {

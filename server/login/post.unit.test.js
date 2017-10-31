@@ -1,22 +1,34 @@
 const testHelpers = require('@quoin/node-test-helpers');
 
-const moduleToTest = require('./login');
+const moduleToTest = require('./post');
 
 const expect = testHelpers.expect;
 
-describe("server/controllers/login", () => {
-    let config;
-    let warpCore;
-    let Persistence;
+describe("server/login/post", () => {
+    let app;
 
     beforeEach(() => {
-        config = {};
-        warpCore = {};
-        Persistence = {};
+        app = {
+            get(key) {
+                switch (key) {
+                    case 'warpjs-core':
+                        return {};
+
+                    case 'warpjs-persistence':
+                        return {};
+
+                    case 'warpjs-config':
+                        return {};
+
+                    default:
+                        throw new Error(`Unknown app.get('${key}').`);
+                }
+            }
+        };
     });
 
-    it("should expose a function with 5 params", () => {
-        expect(moduleToTest).to.be.a('function').to.have.lengthOf(5);
+    it("should expose a function with 2 params", () => {
+        expect(moduleToTest).to.be.a('function').to.have.lengthOf(2);
     });
 
     describe("invalid user", () => {
@@ -27,7 +39,8 @@ describe("server/controllers/login", () => {
                 }
             };
             const {req, res} = testHelpers.createMocks(reqOptions);
-            moduleToTest(config, warpCore, Persistence, req, res);
+            req.app = app;
+            moduleToTest(req, res);
 
             setTimeout(() => {
                 expect(res._getStatusCode()).to.equal(406);
@@ -42,8 +55,9 @@ describe("server/controllers/login", () => {
                 }
             };
             const {req, res} = testHelpers.createMocks(reqOptions);
+            req.app = app;
 
-            moduleToTest(config, warpCore, Persistence, req, res);
+            moduleToTest(req, res);
 
             setTimeout(() => {
                 expect(res._getStatusCode()).to.equal(302);
@@ -62,8 +76,9 @@ describe("server/controllers/login", () => {
                 }
             };
             const {req, res} = testHelpers.createMocks(reqOptions);
+            req.app = app;
 
-            moduleToTest(config, warpCore, Persistence, req, res);
+            moduleToTest(req, res);
 
             setTimeout(() => {
                 expect(res._getStatusCode()).to.equal(302);
@@ -80,8 +95,9 @@ describe("server/controllers/login", () => {
                 }
             };
             const {req, res} = testHelpers.createMocks(reqOptions);
+            req.app = app;
 
-            moduleToTest(config, warpCore, Persistence, req, res);
+            moduleToTest(req, res);
 
             setTimeout(() => {
                 expect(res._getStatusCode()).to.equal(302);

@@ -1,16 +1,13 @@
 const RoutesInfo = require('@quoin/expressjs-routes-info');
 
-const controllers = require('./controllers');
+const login = require('./login');
+const logout = require('./logout');
 
-module.exports = (config, warpCore, Persistence, subPath, baseUrl) => {
+module.exports = (subPath, baseUrl) => {
     const routesInfo = new RoutesInfo(subPath, baseUrl);
 
-    routesInfo.route('W2:plugin:session:login', '/{?error,redirect}')
-        .get(controllers.loginPage.bind(null, config, warpCore, Persistence))
-        .post(controllers.login.bind(null, config, warpCore, Persistence));
-
-    routesInfo.route('W2:plugin:session:logout', '/logout')
-        .get(controllers.logout.bind(null, config, warpCore, Persistence));
+    routesInfo.route('W2:plugin:session:login', '/{?error,redirect}', login);
+    routesInfo.route('W2:plugin:session:logout', '/logout', logout);
 
     return routesInfo;
 };

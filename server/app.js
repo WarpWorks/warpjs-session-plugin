@@ -16,6 +16,9 @@ module.exports = (config, warpCore, Persistence, baseUrl, staticUrl) => {
     app.set('views', warpjsUtils.getHandlebarsViewsDir());
     app.set('base-url', baseUrl);
     app.set('static-url', staticUrl);
+    app.set('warpjs-config', config);
+    app.set('warpjs-core', warpCore);
+    app.set('warpjs-persistence', Persistence);
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({
@@ -24,7 +27,7 @@ module.exports = (config, warpCore, Persistence, baseUrl, staticUrl) => {
 
     app.use('/assets', express.static(path.join(repoRoot, 'assets')));
 
-    app.use(routes(config, warpCore, Persistence, '/', baseUrl || '/').router);
+    app.use(routes('/', baseUrl || '/').router);
 
     return app;
 };

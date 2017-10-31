@@ -4,12 +4,12 @@ const warpjsUtils = require('@warp-works/warpjs-utils');
 
 const app = require('./../app');
 const constants = require('./../constants');
-const moduleToTest = require('./login-page');
+const moduleToTest = require('./get');
 const specUtils = require('./../utils.helpers.test');
 
 const expect = testHelpers.expect;
 
-describe("server/controllers/login-page", () => {
+describe("server/login/get", () => {
     const config = {};
     const warpCore = {};
     const Persistence = {};
@@ -21,8 +21,8 @@ describe("server/controllers/login-page", () => {
         app(config, warpCore, Persistence, baseUrl, staticUrl);
     });
 
-    it("should expose a function with 5 params", () => {
-        expect(moduleToTest).to.be.a('function').to.have.lengthOf(5);
+    it("should expose a function with 2 params", () => {
+        expect(moduleToTest).to.be.a('function').to.have.lengthOf(2);
     });
 
     it("should 406 for unknown", () => {
@@ -36,7 +36,7 @@ describe("server/controllers/login-page", () => {
             get: (key) => key
         };
 
-        moduleToTest(config, warpCore, Persistence, req, res);
+        moduleToTest(req, res);
 
         expect(res._getStatusCode()).to.equal(406);
     });
@@ -54,7 +54,7 @@ describe("server/controllers/login-page", () => {
         req.app = app;
         res.app = app;
 
-        moduleToTest(config, warpCore, Persistence, req, res);
+        moduleToTest(req, res);
 
         expect(res._getStatusCode()).to.equal(200);
         expect(res._getRenderView()).to.equal('index');
@@ -83,7 +83,7 @@ describe("server/controllers/login-page", () => {
                 get: (key) => key
             };
 
-            moduleToTest(config, warpCore, Persistence, req, res);
+            moduleToTest(req, res);
 
             expect(res._getStatusCode()).to.equal(200);
             expect(res._getHeaders()).to.deep.equal({
@@ -113,7 +113,7 @@ describe("server/controllers/login-page", () => {
                 get: (key) => key
             };
 
-            moduleToTest(config, warpCore, Persistence, req, res);
+            moduleToTest(req, res);
 
             const data = res._getData();
 
@@ -136,7 +136,7 @@ describe("server/controllers/login-page", () => {
                 get: (key) => key
             };
 
-            moduleToTest(config, warpCore, Persistence, req, res);
+            moduleToTest(req, res);
 
             const data = res._getData();
 
@@ -159,7 +159,7 @@ describe("server/controllers/login-page", () => {
                 get: (key) => key
             };
 
-            moduleToTest(config, warpCore, Persistence, req, res);
+            moduleToTest(req, res);
 
             const data = res._getData();
 
@@ -182,7 +182,7 @@ describe("server/controllers/login-page", () => {
                 get: (key) => key
             };
 
-            moduleToTest(config, warpCore, Persistence, req, res);
+            moduleToTest(req, res);
 
             const data = res._getData();
 
@@ -205,7 +205,7 @@ describe("server/controllers/login-page", () => {
                 UserName: 'foobar'
             };
 
-            moduleToTest(config, warpCore, Persistence, req, res);
+            moduleToTest(req, res);
 
             const data = res._getData();
 
