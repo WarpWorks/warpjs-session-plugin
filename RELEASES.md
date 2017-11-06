@@ -1,5 +1,9 @@
 # Releases
 
+## 0.3.2 - 2017-11-06
+
+- Added proper role's Name to the admin user object.
+
 ## 0.3.1 - 2017-10-31
 
 - Restructured code to be more lisible.

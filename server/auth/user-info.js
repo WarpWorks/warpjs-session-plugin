@@ -50,6 +50,8 @@ userInfo.DEFAULT_ADMIN_USER = {
     UserName: "admin",
     Roles: [{
         type: "Role",
+        Name: "admin",
+        Description: "Administrator role",
         label: "admin"
     }]
 };
