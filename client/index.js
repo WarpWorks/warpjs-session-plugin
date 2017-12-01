@@ -2,13 +2,11 @@ const warpjsUtils = require('@warp-works/warpjs-utils');
 
 const template = require('./templates/index.hbs');
 
-(($) => {
-    $(document).ready(() => {
-        warpjsUtils.getCurrentPageHAL($)
-            .then((result) => {
-                const content = template(result.data);
+(($) => $(document).ready(() => warpjsUtils.getCurrentPageHAL($)
+    .then((result) => {
+        const content = template(result.data);
 
-                $('#warpjs-content-placeholder').html(content);
-            });
-    });
-})(jQuery);
+        $(warpjsUtils.constants.CONTENT_PLACEHOLDER).html(content);
+        warpjsUtils.documentReady($);
+    })
+))(jQuery);

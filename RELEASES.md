@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.1 - 2017-12-01
+
+- Using new header with search.
+
 ## 0.3.2 - 2017-11-06
 
 - Added proper role's Name to the admin user object.

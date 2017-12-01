@@ -1,6 +1,6 @@
 {
   "name": "@warp-works/warpjs-session-plugin",
-  "version": "1.2.0-rc1",
+  "version": "1.2.1",
   "description": "Session Management plug-in for WarpJS",
   "main": "index.js",
   "scripts": {
@@ -35,8 +35,8 @@
     "node": "6.x.x"
   },
   "peerDependencies": {
-    "@quoin/expressjs-routes-info": ">=0.1.7",
-    "@warp-works/warpjs-utils": ">=0.2.0",
+    "@quoin/expressjs-routes-info": ">=0.1.10",
+    "@warp-works/warpjs-utils": ">=1.2.0",
     "body-parser": ">=1.17.2",
     "cookie-parser": ">= 1.4.3",
     "express": ">=4.0.0",
@@ -54,7 +54,7 @@
     "babel-preset-stage-0": "6.24.1",
     "body-parser": "1.18.2",
     "cookie-parser": "1.4.3",
-    "eslint": "4.12.0",
+    "eslint": "4.12.x",
     "eslint-plugin-html": "4.0.1",
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-json": "1.2.0",
