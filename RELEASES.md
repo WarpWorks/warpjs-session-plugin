@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.2 - 2017-12-08
+
+- Fixed access for entity without `WriteAccess`.
+
 ## 1.2.1 - 2017-12-01
 
 - Using new header with search.
