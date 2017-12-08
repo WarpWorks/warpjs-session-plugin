@@ -1,10 +1,10 @@
 {
   "name": "@warp-works/warpjs-session-plugin",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Session Management plug-in for WarpJS",
   "main": "index.js",
   "scripts": {
-    "prepublish": "grunt && npm test",
+    "prepublish": "grunt && npm -s test",
     "grunt": "grunt",
     "coverage:integration": "nyc npm run -s test:integration",
     "coverage:unit": "nyc npm run -s test:unit",
