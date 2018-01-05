@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.3 - 2018-01-05
+
+- Updated warpjs-utils.
+
 ## 1.2.2 - 2017-12-08
 
 - Fixed access for entity without `WriteAccess`.
