@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.4 - 2018-01-08
+
+- `.getDomainByName(persistence, domainName)`.
+
 ## 1.2.3 - 2018-01-05
 
 - Updated warpjs-utils.
