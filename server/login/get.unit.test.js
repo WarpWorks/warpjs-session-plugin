@@ -4,6 +4,7 @@ const warpjsUtils = require('@warp-works/warpjs-utils');
 
 const app = require('./../app');
 const constants = require('./../constants');
+const libConstants = require('./../../lib/constants');
 const moduleToTest = require('./get');
 const specUtils = require('./../utils.helpers.test');
 
@@ -63,10 +64,9 @@ describe("server/login/get", () => {
             baseUrl: 'base-url',
             staticUrl: 'static-url',
             bundles: [
-                'base-url/assets/vendor.min.js',
-                'base-url/assets/session.min.js'
+                `base-url/assets/${libConstants.assets.js}`
             ],
-            cssFile: 'base-url/assets/session.min.css'
+            cssFile: `base-url/assets/${libConstants.assets.css}`
         });
     });
 

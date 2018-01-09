@@ -5,7 +5,7 @@ const entityAuthenticate = require('./entity-authenticate');
 const userInfo = require('./user-info');
 
 module.exports = (config, warpCore, persistence, username, password) => Promise.resolve()
-    .then(() => warpCore.getDomainByName(persistence, config.domainName))
+    .then(() => warpCore.getDomainByName(config.domainName))
     .then((domain) => domain.getEntityByName(config.users.entity))
     .then((entity) => entityAuthenticate(config, persistence, entity, username, password))
     .then(

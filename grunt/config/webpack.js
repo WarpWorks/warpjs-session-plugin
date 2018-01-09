@@ -2,6 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 const warpjsUtils = require('@warp-works/warpjs-utils');
 
+const constants = require('./../../lib/constants');
+
 const projectDir = path.dirname(require.resolve('./../../package.json'));
 
 module.exports = {
@@ -9,7 +11,7 @@ module.exports = {
         target: 'web',
         devtool: 'source-map',
         entry: {
-            session: './client/index.js'
+            [constants.versionedName]: './client/index.js'
         },
         node: {
             fs: 'empty'
@@ -19,12 +21,8 @@ module.exports = {
             filename: '[name].min.js'
         },
         plugins: [
-            new webpack.optimize.CommonsChunkPlugin({
-                names: 'vendor',
-                minChunks: (module) => module.context && module.context.indexOf('node_modules') !== -1
-            }),
             new webpack.optimize.UglifyJsPlugin({
-                compress: false
+                compress: true
             })
         ],
         module: {

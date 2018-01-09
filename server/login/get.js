@@ -2,6 +2,7 @@ const RoutesInfo = require('@quoin/expressjs-routes-info');
 const warpjsUtils = require('@warp-works/warpjs-utils');
 
 const constants = require('./../constants');
+const libConstants = require('./../../lib/constants');
 
 module.exports = (req, res) => {
     warpjsUtils.wrapWith406(res, {
@@ -10,10 +11,9 @@ module.exports = (req, res) => {
 
             warpjsUtils.sendIndex(res, 'Login',
                 [
-                    `${baseUrl}/assets/vendor.min.js`,
-                    `${baseUrl}/assets/session.min.js`
+                    `${baseUrl}/assets/${libConstants.assets.js}`
                 ],
-                `${baseUrl}/assets/session.min.css`
+                `${baseUrl}/assets/${libConstants.assets.css}`
             );
         },
 
