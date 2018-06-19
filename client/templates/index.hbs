@@ -26,12 +26,13 @@
             {{/if}}
 
             <form class="form-vertical" role="form"
-                action="{{_links.i3c_login.href}}" method="POST"
+                action="{{_links.warpjsLogin.href}}" method="POST"
+                encType="multipart/form-data"
                 >
                 <div class="form-group">
                     <label>
                         Username:
-                        <input type="text" id="i3c-login-username"
+                        <input type="text"
                             name="username"
                             class="form-control"
                             placeholder="username"
@@ -42,7 +43,7 @@
                 <div class="form-group">
                     <label>
                         Password:
-                        <input type="password" id="i3c-login-password"
+                        <input type="password"
                             name="password"
                             class="form-control"
                             placeholder="password"

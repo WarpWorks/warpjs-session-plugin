@@ -2,4 +2,5 @@
 /.nyc_output
 /assets
 /node_modules
+/npm-debug.log
 /reports
