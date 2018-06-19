@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.6 - 2018-06-19
+
+- Fixed form enctype following usage of plugin for file upload.
+
 ## 1.2.5 - 2018-01-09
 
 - Revert changes to `.getDomainByName()`.

@@ -25,7 +25,8 @@ module.exports = (config, persistence, entity, username, password) => {
                 ;
             } else {
                 // TODO: We should log this to track attacks?
-                console.log(`Account '${username}' not found.`);
+                // eslint-disable-next-line no-console
+                console.error(`Account '${username}' not found.`);
                 throw new Error();
             }
         })

@@ -4,7 +4,7 @@ const requiresWarpjsUser = require('./requires-warpjs-user');
 const unauthorized = require('./unauthorized');
 const warpjsUser = require('./warpjs-user');
 
-module.exports = (config, warpCore, Persistence) => ({
+module.exports = (config, warpCore, Persistence) => Object.freeze({
     canAccessAsAdmin: (req, res, next) => canAccessAsAdmin(config, warpCore, Persistence, req, res, next),
     canAccessAsContentManager: (req, res, next) => canAccessAsContentManager(config, warpCore, Persistence, req, res, next),
     requiresWarpjsUser: (req, res, next) => requiresWarpjsUser(config, warpCore, Persistence, req, res, next),
