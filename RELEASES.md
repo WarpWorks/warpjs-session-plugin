@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.7 - 2018-08-01
+
+- Portal new header.
+
 ## 1.2.6 - 2018-06-19
 
 - Fixed form enctype following usage of plugin for file upload.
