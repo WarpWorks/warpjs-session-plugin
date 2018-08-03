@@ -2,9 +2,9 @@ const RoutesInfo = require('@quoin/expressjs-routes-info');
 const RoutesInfoCache = require('@quoin/expressjs-routes-info/lib/cache');
 const testHelpers = require('@quoin/node-test-helpers');
 
-const app = require('./../app');
 const constants = require('./../constants');
 const moduleToTest = require('./requires-warpjs-user');
+const specHelpers = require('./../utils.helpers.test');
 
 const expect = testHelpers.expect;
 
@@ -12,16 +12,10 @@ describe("server/middlewares/requires-warpjs-user", () => {
     const config = {};
     const warpCore = {};
     const Persistence = {};
-    const baseUrl = '/test';
-    const staticUrl = '/test-static';
 
     beforeEach(() => {
-        const config = {};
-        const warpCore = {};
-        const Persistence = {};
-
         RoutesInfoCache.reset();
-        app(config, warpCore, Persistence, baseUrl, staticUrl);
+        specHelpers.initApp();
     });
 
     it("should expose a function with 6 params", () => {

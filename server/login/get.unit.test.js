@@ -2,7 +2,6 @@ const testHelpers = require('@quoin/node-test-helpers');
 const RoutesInfoCache = require('@quoin/expressjs-routes-info/lib/cache');
 const warpjsUtils = require('@warp-works/warpjs-utils');
 
-const app = require('./../app');
 const constants = require('./../constants');
 const libConstants = require('./../../lib/constants');
 const moduleToTest = require('./get');
@@ -11,15 +10,9 @@ const specUtils = require('./../utils.helpers.test');
 const expect = testHelpers.expect;
 
 describe("server/login/get", () => {
-    const config = {};
-    const warpCore = {};
-    const Persistence = {};
-    const baseUrl = '/test';
-    const staticUrl = '/test-static';
-
     beforeEach(() => {
         RoutesInfoCache.reset();
-        app(config, warpCore, Persistence, baseUrl, staticUrl);
+        specUtils.initApp();
     });
 
     it("should expose a function with 2 params", () => {
@@ -58,16 +51,33 @@ describe("server/login/get", () => {
         moduleToTest(req, res);
 
         expect(res._getStatusCode()).to.equal(200);
-        expect(res._getRenderView()).to.equal('index');
-        expect(res._getRenderData()).to.deep.equal({
-            title: "Login",
-            baseUrl: 'base-url',
-            staticUrl: 'static-url',
-            bundles: [
-                `base-url/assets/${libConstants.assets.js}`
-            ],
-            cssFile: `base-url/assets/${libConstants.assets.css}`
-        });
+        expect(res._getRenderView()).to.equal('portal-index');
+
+        const renderData = res._getRenderData();
+        expect(renderData).has.property('baseUrl', 'base-url');
+        expect(renderData).has.property('staticUrl', 'static-url');
+        expect(renderData).has.property('title', "Login");
+        expect(renderData).has.property('copyrightYear', (new Date()).getFullYear());
+
+        expect(renderData).has.property('bundles');
+        expect(renderData.bundles).to.deep.equal([
+            `base-url/assets/${libConstants.assets.js}`
+        ]);
+
+        expect(renderData).has.property('cssFile', `base-url/assets/${libConstants.assets.css}`);
+
+        expect(renderData).has.property('warpjsFeatures');
+        expect(renderData.warpjsFeatures).to.be.an('object');
+
+        expect(renderData).has.property('warpjsUser');
+
+        expect(renderData).has.property('_embedded');
+        expect(renderData._embedded).has.property('headerItems');
+
+        expect(renderData).has.property('_links');
+        expect(renderData._links).has.property('warpjsLogo');
+        expect(renderData._links).has.property('warpjsLogin');
+        expect(renderData._links).has.property('warpjsLogout');
     });
 
     describe("in HAL", () => {

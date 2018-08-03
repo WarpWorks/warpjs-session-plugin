@@ -1,10 +1,16 @@
 const _ = require('lodash');
 const testHelpers = require('@quoin/node-test-helpers');
 const Persistence = require('@warp-works/warpjs-mongo-persistence'); // FIXME: Create a mock-persistence
-
-const app = require('./app');
+const RoutesInfo = require('@quoin/expressjs-routes-info');
+const warpjsUtils = require('@warp-works/warpjs-utils');
 
 const expect = testHelpers.expect;
+const proxyquire = testHelpers.proxyquire.noCallThru().noPreserveCache();
+const app = proxyquire(require.resolve('./app'), {
+    'hbs-utils': () => ({
+        registerWatchedPartials: () => {}
+    })
+});
 
 const EXPECTED_COPYRIGHT_YEAR = (new Date()).getFullYear();
 
@@ -25,6 +31,16 @@ function verifyHal(expect, data) {
 }
 
 function initApp(config = {}, warpCore = {}) {
+    const routesInfo = new RoutesInfo('/sub-path', '/base-url');
+    routesInfo.route('entity', '/entity-path/type/{type}/id/{id}');
+
+    warpjsUtils.cache.setConfig({
+        headerItems: [{
+            label: "Foo Bar",
+            type: "FooBar",
+            id: "123123123123"
+        }]
+    });
     return app(config, warpCore, Persistence, '/test', '/static-test');
 }
 
