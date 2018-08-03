@@ -9,7 +9,7 @@ module.exports = (req, res) => {
         html: () => {
             const baseUrl = req.app.get('base-url');
 
-            warpjsUtils.sendIndex(res, 'Login',
+            warpjsUtils.sendPortalIndex(req, res, RoutesInfo, 'Login',
                 [
                     `${baseUrl}/assets/${libConstants.assets.js}`
                 ],

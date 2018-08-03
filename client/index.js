@@ -1,6 +1,6 @@
 const warpjsUtils = require('@warp-works/warpjs-utils');
 
-const template = require('./templates/index.hbs');
+const template = require('./template.hbs');
 
 (($) => $(document).ready(() => warpjsUtils.getCurrentPageHAL($)
     .then((result) => {

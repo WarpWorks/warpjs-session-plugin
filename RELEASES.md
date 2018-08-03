@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.8 - 2018-08-03
+
+- #1: Refactored for warpjsUtils.sendPortalIndex().
+
 ## 1.2.7 - 2018-08-01
 
 - Portal new header.
