@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.9 - 2018-09-17
+
+- Fixed issue when user is not logged in.
+
 ## 1.2.8 - 2018-08-03
 
 - #1: Refactored for warpjsUtils.sendPortalIndex().

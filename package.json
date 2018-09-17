@@ -1,6 +1,6 @@
 {
   "name": "@warp-works/warpjs-session-plugin",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "description": "Session Management plug-in for WarpJS",
   "main": "index.js",
   "scripts": {
@@ -57,8 +57,9 @@
     "body-parser": "1.18.x",
     "cookie-parser": "1.4.3",
     "eslint": "4.19.x",
+    "eslint-config-standard": "11.0.x",
     "eslint-plugin-html": "4.0.x",
-    "eslint-plugin-import": "2.13.x",
+    "eslint-plugin-import": "2.14.x",
     "eslint-plugin-json": "1.2.x",
     "eslint-plugin-node": "7.0.x",
     "eslint-plugin-promise": "3.8.x",
@@ -66,24 +67,24 @@
     "express": "4.16.x",
     "grunt": "1.0.x",
     "grunt-cli": "latest",
-    "grunt-contrib-clean": "1.1.0",
+    "grunt-contrib-clean": "2.0.x",
     "grunt-contrib-less": "2.0.x",
-    "grunt-eslint": "20.2.x",
+    "grunt-eslint": "21.0.x",
     "grunt-webpack": "3.1.x",
-    "handlebars": "4.0.11",
+    "handlebars": "4.0.x",
     "handlebars-loader": "1.7.x",
     "hbs": "4.0.x",
     "hbs-utils": "0.0.x",
     "load-grunt-config": "0.19.2",
     "lodash": "4.17.x",
     "mocha": "5.2.x",
-    "nyc": "12.0.x",
+    "nyc": "13.0.x",
     "time-grunt": "1.4.0",
     "webpack": "2.7.0"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
-    "bluebird": "3.5.1",
+    "bluebird": "3.5.x",
     "debug": "3.1.0",
     "jsonwebtoken": "8.3.0"
   }
