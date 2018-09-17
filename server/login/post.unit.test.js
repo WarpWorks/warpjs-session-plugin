@@ -38,7 +38,7 @@ describe("server/login/post", () => {
                     Accept: 'unknown'
                 }
             };
-            const {req, res} = testHelpers.createMocks(reqOptions);
+            const { req, res } = testHelpers.createMocks(reqOptions);
             req.app = app;
             moduleToTest(req, res);
 
@@ -54,7 +54,7 @@ describe("server/login/post", () => {
                     Accept: 'text/html'
                 }
             };
-            const {req, res} = testHelpers.createMocks(reqOptions);
+            const { req, res } = testHelpers.createMocks(reqOptions);
             req.app = app;
 
             moduleToTest(req, res);
@@ -75,7 +75,7 @@ describe("server/login/post", () => {
                     redirect: '/something'
                 }
             };
-            const {req, res} = testHelpers.createMocks(reqOptions);
+            const { req, res } = testHelpers.createMocks(reqOptions);
             req.app = app;
 
             moduleToTest(req, res);
@@ -94,7 +94,7 @@ describe("server/login/post", () => {
                     Referer: 'https://other.site/some/path'
                 }
             };
-            const {req, res} = testHelpers.createMocks(reqOptions);
+            const { req, res } = testHelpers.createMocks(reqOptions);
             req.app = app;
 
             moduleToTest(req, res);

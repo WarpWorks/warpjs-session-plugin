@@ -26,7 +26,7 @@ describe("server/middlewares/requires-warpjs-user", () => {
         const reqOptions = {
             url: '/some/original/url'
         };
-        const {req, res} = testHelpers.createMocks(reqOptions);
+        const { req, res } = testHelpers.createMocks(reqOptions);
         const next = testHelpers.stub();
         const expectedRedirect = RoutesInfo.expand('W2:plugin:session:login', {
             error: '401',
@@ -44,7 +44,7 @@ describe("server/middlewares/requires-warpjs-user", () => {
         const reqOptions = {
             url: '/some/original/url'
         };
-        const {req, res} = testHelpers.createMocks(reqOptions);
+        const { req, res } = testHelpers.createMocks(reqOptions);
         const next = testHelpers.stub();
 
         req[constants.WARPJS_USER_REQ_KEY] = {};

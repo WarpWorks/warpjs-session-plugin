@@ -25,7 +25,7 @@ describe("server/login/get", () => {
                 Accept: 'unknown'
             }
         };
-        const {req, res} = testHelpers.createMocks(reqOptions);
+        const { req, res } = testHelpers.createMocks(reqOptions);
         res.app = {
             get: (key) => key
         };
@@ -41,7 +41,7 @@ describe("server/login/get", () => {
                 Accept: 'text/html'
             }
         };
-        const {req, res} = testHelpers.createMocks(reqOptions);
+        const { req, res } = testHelpers.createMocks(reqOptions);
         const app = {
             get: (key) => key
         };
@@ -88,7 +88,7 @@ describe("server/login/get", () => {
                     Accept: warpjsUtils.constants.HAL_CONTENT_TYPE
                 }
             };
-            const {req, res} = testHelpers.createMocks(reqOptions);
+            const { req, res } = testHelpers.createMocks(reqOptions);
             res.app = {
                 get: (key) => key
             };
@@ -118,7 +118,7 @@ describe("server/login/get", () => {
                     redirect: '/some/redirect'
                 }
             };
-            const {req, res} = testHelpers.createMocks(reqOptions);
+            const { req, res } = testHelpers.createMocks(reqOptions);
             res.app = {
                 get: (key) => key
             };
@@ -141,7 +141,7 @@ describe("server/login/get", () => {
                     error: 'invalid'
                 }
             };
-            const {req, res} = testHelpers.createMocks(reqOptions);
+            const { req, res } = testHelpers.createMocks(reqOptions);
             res.app = {
                 get: (key) => key
             };
@@ -164,7 +164,7 @@ describe("server/login/get", () => {
                     error: '401'
                 }
             };
-            const {req, res} = testHelpers.createMocks(reqOptions);
+            const { req, res } = testHelpers.createMocks(reqOptions);
             res.app = {
                 get: (key) => key
             };
@@ -187,7 +187,7 @@ describe("server/login/get", () => {
                     error: '403'
                 }
             };
-            const {req, res} = testHelpers.createMocks(reqOptions);
+            const { req, res } = testHelpers.createMocks(reqOptions);
             res.app = {
                 get: (key) => key
             };
@@ -207,7 +207,7 @@ describe("server/login/get", () => {
                     Accept: warpjsUtils.constants.HAL_CONTENT_TYPE
                 }
             };
-            const {req, res} = testHelpers.createMocks(reqOptions);
+            const { req, res } = testHelpers.createMocks(reqOptions);
             res.app = {
                 get: (key) => key
             };

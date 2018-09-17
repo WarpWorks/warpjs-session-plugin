@@ -21,7 +21,7 @@ describe("server/middlewares/can-access", () => {
                 Accept: 'unknown'
             }
         };
-        const {req, res} = testHelpers.createMocks(reqOptions);
+        const { req, res } = testHelpers.createMocks(reqOptions);
         const next = testHelpers.stub();
 
         moduleToTest(impl, config, warpCore, Persistence, req, res, next);

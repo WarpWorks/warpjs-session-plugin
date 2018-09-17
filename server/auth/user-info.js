@@ -31,7 +31,7 @@ function userInfo(persistence, accountEntity, accountInstance) {
     return Promise.resolve()
         .then(() => accountEntity.getParentEntity(accountInstance))
         .then((userEntity) => Promise.resolve()
-            .then(() => userEntity.getDocuments(persistence, {_id: accountInstance.parentID}, true))
+            .then(() => userEntity.getDocuments(persistence, { _id: accountInstance.parentID }, true))
             .then((docs) => (docs && docs.length && docs.pop()) || null)
             .then((userInstance) => Promise.resolve()
                 .then(() => userEntity.getRelationshipByName('Roles'))

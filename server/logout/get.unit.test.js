@@ -33,7 +33,7 @@ describe("server/logout/get", () => {
     });
 
     it("should clearCookie()", () => {
-        const {req, res} = testHelpers.createMocks();
+        const { req, res } = testHelpers.createMocks();
         req.app = app;
 
         testHelpers.spy(res, 'clearCookie');
@@ -50,7 +50,7 @@ describe("server/logout/get", () => {
                 Accept: 'unknown'
             }
         };
-        const {req, res} = testHelpers.createMocks(reqOptions);
+        const { req, res } = testHelpers.createMocks(reqOptions);
         req.app = app;
 
         moduleToTest(req, res);
@@ -64,7 +64,7 @@ describe("server/logout/get", () => {
                 Accept: warpjsUtils.constants.HAL_CONTENT_TYPE
             }
         };
-        const {req, res} = testHelpers.createMocks(reqOptions);
+        const { req, res } = testHelpers.createMocks(reqOptions);
         req.app = app;
 
         moduleToTest(req, res);
@@ -78,7 +78,7 @@ describe("server/logout/get", () => {
 
     it("should redirect for HTML", () => {
         const reqOptions = {};
-        const {req, res} = testHelpers.createMocks(reqOptions);
+        const { req, res } = testHelpers.createMocks(reqOptions);
         req.app = app;
 
         moduleToTest(req, res);

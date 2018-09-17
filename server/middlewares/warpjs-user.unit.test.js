@@ -26,7 +26,7 @@ describe("server/middlewares/warpjs-user", () => {
 
     it("should not add 'warpjsUser' when no signedCookies", () => {
         const reqOptions = {};
-        const {req, res} = testHelpers.createMocks(reqOptions);
+        const { req, res } = testHelpers.createMocks(reqOptions);
         const next = testHelpers.stub();
 
         moduleToTest(config, warpCore, Persistence, req, res, next);
@@ -40,7 +40,7 @@ describe("server/middlewares/warpjs-user", () => {
             signedCookies: {
             }
         };
-        const {req, res} = testHelpers.createMocks(reqOptions);
+        const { req, res } = testHelpers.createMocks(reqOptions);
         const next = testHelpers.stub();
 
         moduleToTest(config, warpCore, Persistence, req, res, next);
@@ -55,7 +55,7 @@ describe("server/middlewares/warpjs-user", () => {
                 [config.jwtCookieName]: 'invalid'
             }
         };
-        const {req, res} = testHelpers.createMocks(reqOptions);
+        const { req, res } = testHelpers.createMocks(reqOptions);
         const next = testHelpers.stub();
 
         moduleToTest(config, warpCore, Persistence, req, res, next);
@@ -78,7 +78,7 @@ describe("server/middlewares/warpjs-user", () => {
                 [config.jwtCookieName]: token
             }
         };
-        const {req, res} = testHelpers.createMocks(reqOptions);
+        const { req, res } = testHelpers.createMocks(reqOptions);
         const next = testHelpers.stub();
 
         moduleToTest(config, warpCore, Persistence, req, res, next);
