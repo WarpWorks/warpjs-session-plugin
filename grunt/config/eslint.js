@@ -1,7 +1,10 @@
 module.exports = {
     options: {
         fix: true,
-        useEslintrc: false
+        useEslintrc: false,
+        parserOptions: {
+            ecmaVersion: 8
+        }
     },
     node: {
         options: {
@@ -10,7 +13,8 @@ module.exports = {
                 extends: '@quoin/eslint-config-quoin'
             },
             rules: {
-                'no-console': 'warn'
+                'no-console': 'warn',
+                'node/no-deprecated-api': 'warn'
             }
         },
         src: [

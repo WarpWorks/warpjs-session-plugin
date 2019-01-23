@@ -97,7 +97,7 @@ describe("server/login/get", () => {
 
             expect(res._getStatusCode()).to.equal(200);
             expect(res._getHeaders()).to.deep.equal({
-                'Content-Type': warpjsUtils.constants.HAL_CONTENT_TYPE
+                'content-type': warpjsUtils.constants.HAL_CONTENT_TYPE
             });
 
             const data = res._getData();

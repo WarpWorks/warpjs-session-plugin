@@ -1,10 +1,10 @@
 const Promise = require('bluebird');
-const jwt = require('jsonwebtoken');
 const RoutesInfo = require('@quoin/expressjs-routes-info');
 const warpjsUtils = require('@warp-works/warpjs-utils');
 
 const auth = require('./../auth');
 const constants = require('./../constants');
+const cookies = require('./../../lib/cookies');
 const redirect = require('./../redirect');
 const redirectToProperPage = require('./../redirect-to-proper-page');
 
@@ -21,16 +21,10 @@ module.exports = (req, res) => {
         .then(() => auth(config, warpCore, persistence, username, password))
         .then((user) => {
             // TODO: What other things we want to add here?
-            const payload = {
-                user
-            };
+            const payload = { user };
 
-            const token = jwt.sign(payload, config.jwtSecret, {
-                algorithm: 'HS256',
-                expiresIn: '1d'
-            });
+            cookies.send(config, req, res, payload);
 
-            res.cookie(config.jwtCookieName, token, { signed: true, httpOnly: true, sameSite: true });
             warpjsUtils.wrapWith406(res, {
                 html: () => {
                     redirectToProperPage(req, res);

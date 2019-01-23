@@ -1,22 +1,31 @@
-const jwt = require('jsonwebtoken');
-
+const casSSO = require('./cas-sso');
 const constants = require('./../constants');
+const cookies = require('./../../lib/cookies');
+const debug = require('./debug.js')('warpjs-user');
 
-module.exports = (config, warpCore, Persistence, req, res, next) => {
-    if (req.signedCookies) {
-        const cookie = req.signedCookies[config.jwtCookieName];
+module.exports = async (config, warpCore, Persistence, req, res, next) => {
+    const isCasSSO = casSSO.isCasSSO(config);
 
-        if (cookie) {
-            try {
-                const data = jwt.verify(cookie, config.jwtSecret, {
-                    algorithms: ['HS256']
-                });
-                req[constants.WARPJS_USER_REQ_KEY] = data.user;
-            } catch (e) {
-                // TODO: Log this error
-                req[constants.WARPJS_USER_INVALID_REQ_KEY] = 'Invalid token';
-            }
+    if (isCasSSO && req.query.returnSSO) {
+        await casSSO.returnSSO(config, warpCore, Persistence, req, res);
+        next();
+    } else {
+        const data = cookies.get(config, req, res);
+
+        if (data.error) {
+            // TODO: Log this error
+            debug(`got data.error:`, data.error);
+            req[constants.WARPJS_USER_INVALID_REQ_KEY] = 'Invalid token';
+        } else {
+            req[constants.WARPJS_USER_REQ_KEY] = data.user;
+        }
+
+        if (isCasSSO && !data.casSSO) {
+            casSSO.checkSSO(config, req, res);
+            next(); // DEBUG
+        } else {
+            debug(`all set, go to next middleware`);
+            next();
         }
     }
-    next();
 };

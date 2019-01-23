@@ -25,6 +25,10 @@ Add the following configuration section to your project:
           "admin": {
             "username": "defaultAdminUsername",
             "password": "bcryptPasswordForDefaultAdmin"
+          },
+          "casSSO": {
+            "enabled": true,
+            "urlPrefix": "https://cas-server/sso"
           }
         }
       }]

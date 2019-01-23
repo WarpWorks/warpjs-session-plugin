@@ -72,7 +72,7 @@ describe("server/logout/get", () => {
         expect(res._getStatusCode()).to.equal(204);
         expect(res._getData()).to.equal('');
         expect(res._getHeaders()).to.deep.equal({
-            'Content-Type': warpjsUtils.constants.HAL_CONTENT_TYPE
+            'content-type': warpjsUtils.constants.HAL_CONTENT_TYPE
         });
     });
 

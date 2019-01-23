@@ -7,5 +7,6 @@ const ERROR_MESSAGES = {
 module.exports = {
     ERROR_MESSAGES,
     WARPJS_USER_INVALID_REQ_KEY: 'warpjsUserInvalid',
-    WARPJS_USER_REQ_KEY: 'warpjsUser'
+    WARPJS_USER_REQ_KEY: 'warpjsUser',
+    WARPJS_CAS_SSO_REQ_KEY: 'warpjsCasSSO'
 };
