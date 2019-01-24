@@ -9,6 +9,10 @@ const specUtils = require('./../utils.helpers.test');
 
 const expect = testHelpers.expect;
 
+const MOCK_REQ_APP = {
+    get: (key) => key
+};
+
 describe("server/login/get", () => {
     beforeEach(() => {
         RoutesInfoCache.reset();
@@ -23,7 +27,8 @@ describe("server/login/get", () => {
         const reqOptions = {
             headers: {
                 Accept: 'unknown'
-            }
+            },
+            app: MOCK_REQ_APP
         };
         const { req, res } = testHelpers.createMocks(reqOptions);
         res.app = {
@@ -86,7 +91,8 @@ describe("server/login/get", () => {
                 url: '/some/original/url',
                 headers: {
                     Accept: warpjsUtils.constants.HAL_CONTENT_TYPE
-                }
+                },
+                app: MOCK_REQ_APP
             };
             const { req, res } = testHelpers.createMocks(reqOptions);
             res.app = {
@@ -116,7 +122,8 @@ describe("server/login/get", () => {
                 },
                 query: {
                     redirect: '/some/redirect'
-                }
+                },
+                app: MOCK_REQ_APP
             };
             const { req, res } = testHelpers.createMocks(reqOptions);
             res.app = {
@@ -139,7 +146,8 @@ describe("server/login/get", () => {
                 },
                 query: {
                     error: 'invalid'
-                }
+                },
+                app: MOCK_REQ_APP
             };
             const { req, res } = testHelpers.createMocks(reqOptions);
             res.app = {
@@ -162,7 +170,8 @@ describe("server/login/get", () => {
                 },
                 query: {
                     error: '401'
-                }
+                },
+                app: MOCK_REQ_APP
             };
             const { req, res } = testHelpers.createMocks(reqOptions);
             res.app = {
@@ -185,7 +194,8 @@ describe("server/login/get", () => {
                 },
                 query: {
                     error: '403'
-                }
+                },
+                app: MOCK_REQ_APP
             };
             const { req, res } = testHelpers.createMocks(reqOptions);
             res.app = {
@@ -205,7 +215,8 @@ describe("server/login/get", () => {
                 url: '/some/original/url',
                 headers: {
                     Accept: warpjsUtils.constants.HAL_CONTENT_TYPE
-                }
+                },
+                app: MOCK_REQ_APP
             };
             const { req, res } = testHelpers.createMocks(reqOptions);
             res.app = {

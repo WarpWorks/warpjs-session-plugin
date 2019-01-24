@@ -2,7 +2,6 @@ const warpjsUtils = require('@warp-works/warpjs-utils');
 
 const casSSO = require('./../middlewares/cas-sso');
 // const debug = require('./../debug')('logout/get');
-const fullUrl = require('./../../lib/full-url');
 const redirectToProperPage = require('./../redirect-to-proper-page');
 
 module.exports = (req, res) => {
@@ -12,9 +11,6 @@ module.exports = (req, res) => {
 
     const isCasSSO = casSSO.isCasSSO(config);
     // debug(`isCasSSO=${isCasSSO}`);
-
-    const currentPage = fullUrl.fromReq(req);
-    // debug(`currentPage=`, currentPage.toString());
 
     warpjsUtils.wrapWith406(res, {
         html: () => {

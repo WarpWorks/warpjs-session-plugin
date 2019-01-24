@@ -4,6 +4,7 @@ const xmlParser = require('fast-xml-parser');
 
 const cookies = require('./../../lib/cookies');
 const debug = require('./debug.js')('cas-sso');
+const findProperRedirectPage = require('./../../lib/find-proper-redirect-page');
 const fullUrl = require('./../../lib/full-url');
 const userInfo = require('./../auth/user-info');
 
@@ -54,21 +55,25 @@ const checkSSO = (config, req, res) => {
     const ssoLoginUrl = fullUrl.fromBase(SSO_PATHS.LOGIN, config.casSSO.urlPrefix);
     ssoLoginUrl.searchParams.set(PARAMS.SERVICE, serviceUrl.toString());
     ssoLoginUrl.searchParams.set(PARAMS.GATEWAY, true);
-    debug(`checkSSO(): Redirecting to ${ssoLoginUrl.toString()}`);
+    // debug(`checkSSO(): Redirecting to ${ssoLoginUrl.toString()}`);
     res.redirect(ssoLoginUrl.toString());
 };
 
-const login = (config, req, res) => {
-    const serviceUrl = fullUrl.fromReq(req);
+const getLoginUrl = (config, req, res, returnUrl) => {
+    const serviceUrl = returnUrl || fullUrl.fromReq(req);
     serviceUrl.searchParams.set(PARAMS.RETURN_SSO, true);
 
     const loginUrl = fullUrl.fromBase(SSO_PATHS.LOGIN, config.casSSO.urlPrefix);
     loginUrl.searchParams.set(PARAMS.SERVICE, serviceUrl.toString());
-    res.redirect(loginUrl.toString());
+    return loginUrl.toString();
+};
+
+const login = (config, req, res, returnUrl) => {
+    res.redirect(getLoginUrl(config, req, res, returnUrl));
 };
 
 const logout = (config, req, res) => {
-    const serviceUrl = fullUrl.fromReq(req);
+    const serviceUrl = findProperRedirectPage(req);
 
     const logoutUrl = fullUrl.fromBase(SSO_PATHS.LOGOUT, config.casSSO.urlPrefix);
     logoutUrl.searchParams.set(PARAMS.SERVICE, serviceUrl.toString());
@@ -97,30 +102,25 @@ const validate = async (config, req, res, serviceUrl, ticket) => {
         return new CasSsoUser(casAuthenticationSuccess);
     } catch (e) {
         // TODO: Log this?
+        // eslint-disable-next-line no-console
         console.error("...error validating cas sso ticket:", e.message);
         return null;
     }
 };
 
 const returnSSO = async (config, warpCore, Persistence, req, res) => {
-    // debug(`returnSSO(): config=`, config);
-    debug(`returnSSO(): query=`, req.query);
-
     const returnUrl = fullUrl.fromReq(req);
 
     const ticket = returnUrl.searchParams.get(PARAMS.TICKET);
     returnUrl.searchParams.delete('ticket');
-    debug(`returnSSO(): ticket=${ticket}`);
 
     if (ticket) {
         const casSsoUser = await validate(config, req, res, returnUrl, ticket);
-        debug(`returnSSO(): casSsoUser=`, casSsoUser);
         const domain = await warpCore.getDomainByName(config.domainName);
         const accountEntity = domain.getEntityByName(config.users.entity);
         const persistence = new Persistence(config.persistence.host, config.persistence.name);
         try {
             const accounts = await accountEntity.getDocuments(persistence, { [config.casSSO.userAttribute]: casSsoUser.id });
-            debug(`accounts=`, accounts);
             if (accounts && accounts.length) {
                 if (accounts.length !== 1) {
                     throw new CasSsoError(`${accounts.length} accounts found for ${casSsoUser.id}.`);
@@ -144,15 +144,15 @@ const returnSSO = async (config, warpCore, Persistence, req, res) => {
 
         cookies.send(config, req, res, { casSSO: true });
 
-        debug(`returnSSO(): redirectUrl=`, returnUrl.toString());
         res.redirect(returnUrl.toString());
     }
 };
 
 module.exports = Object.freeze({
     checkSSO: (config, req, res) => checkSSO(config, req, res),
+    getLoginUrl: (config, req, res, returnUrl) => getLoginUrl(config, req, res, returnUrl),
     isCasSSO: (config) => Boolean(config && config.casSSO && config.casSSO.enabled),
-    login: (config, req, res) => login(config, req, res),
+    login: (config, req, res, returnUrl) => login(config, req, res, returnUrl),
     logout: (config, req, res) => logout(config, req, res),
     returnSSO: (config, warpCore, Persistence, req, res) => returnSSO(config, warpCore, Persistence, req, res)
 });

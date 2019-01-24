@@ -1,20 +1,31 @@
 const RoutesInfo = require('@quoin/expressjs-routes-info');
 const warpjsUtils = require('@warp-works/warpjs-utils');
 
+const casSSO = require('./../middlewares/cas-sso');
 const constants = require('./../constants');
+const fullUrl = require('./../../lib/full-url');
 const libConstants = require('./../../lib/constants');
 
 module.exports = (req, res) => {
+    const config = req.app.get('warpjs-config');
+
+    const isCasSSO = casSSO.isCasSSO(config);
+
     warpjsUtils.wrapWith406(res, {
         html: () => {
-            const baseUrl = req.app.get('base-url');
+            if (isCasSSO) {
+                const returnURL = fullUrl.fromBase('/', fullUrl.fromReq(req));
+                casSSO.login(config, req, res, returnURL);
+            } else {
+                const baseUrl = req.app.get('base-url');
 
-            warpjsUtils.sendPortalIndex(req, res, RoutesInfo, 'Login',
-                [
-                    `${baseUrl}/assets/${libConstants.assets.js}`
-                ],
-                `${baseUrl}/assets/${libConstants.assets.css}`
-            );
+                warpjsUtils.sendPortalIndex(req, res, RoutesInfo, 'Login',
+                    [
+                        `${baseUrl}/assets/${libConstants.assets.js}`
+                    ],
+                    `${baseUrl}/assets/${libConstants.assets.css}`
+                );
+            }
         },
 
         [warpjsUtils.constants.HAL_CONTENT_TYPE]: () => {
