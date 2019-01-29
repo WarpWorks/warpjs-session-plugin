@@ -28,11 +28,18 @@ Add the following configuration section to your project:
           },
           "casSSO": {
             "enabled": true,
-            "urlPrefix": "https://cas-server/sso"
+            "urlPrefix": "https://cas-server/sso",
+            "userAttribute": "ssoID"
           }
         }
       }]
     }
+
+
+- `casSSO`: Add this section if cas SSO is used.
+    - `enabled`: If we should use CAS SSO integration.
+    - `urlPrefix`: CAS SSO url prefix to use.
+    - `userAttribute`: Attribute name added to the account entity (`users.entity`).
 
 
 ## Exposed routes

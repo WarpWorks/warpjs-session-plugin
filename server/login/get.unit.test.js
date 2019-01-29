@@ -81,8 +81,8 @@ describe("server/login/get", () => {
 
         expect(renderData).has.property('_links');
         expect(renderData._links).has.property('warpjsLogo');
-        expect(renderData._links).has.property('warpjsLogin');
-        expect(renderData._links).has.property('warpjsLogout');
+        // expect(renderData._links).has.property('warpjsLogin');
+        // expect(renderData._links).has.property('warpjsLogout');
     });
 
     describe("in HAL", () => {

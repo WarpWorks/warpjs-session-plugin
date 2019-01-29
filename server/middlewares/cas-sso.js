@@ -59,7 +59,7 @@ const checkSSO = (config, req, res) => {
     res.redirect(ssoLoginUrl.toString());
 };
 
-const getLoginUrl = (config, req, res, returnUrl) => {
+const getLoginUrl = (config, req, returnUrl) => {
     const serviceUrl = returnUrl || fullUrl.fromReq(req);
     serviceUrl.searchParams.set(PARAMS.RETURN_SSO, true);
 
@@ -68,16 +68,20 @@ const getLoginUrl = (config, req, res, returnUrl) => {
     return loginUrl.toString();
 };
 
-const login = (config, req, res, returnUrl) => {
-    res.redirect(getLoginUrl(config, req, res, returnUrl));
-};
-
-const logout = (config, req, res) => {
+const getLogoutUrl = (config, req) => {
     const serviceUrl = findProperRedirectPage(req);
 
     const logoutUrl = fullUrl.fromBase(SSO_PATHS.LOGOUT, config.casSSO.urlPrefix);
     logoutUrl.searchParams.set(PARAMS.SERVICE, serviceUrl.toString());
-    res.redirect(logoutUrl.toString());
+    return logoutUrl.toString();
+};
+
+const login = (config, req, res, returnUrl) => {
+    res.redirect(getLoginUrl(config, req, returnUrl));
+};
+
+const logout = (config, req, res) => {
+    res.redirect(getLogoutUrl(config, req));
 };
 
 const validate = async (config, req, res, serviceUrl, ticket) => {
@@ -150,7 +154,8 @@ const returnSSO = async (config, warpCore, Persistence, req, res) => {
 
 module.exports = Object.freeze({
     checkSSO: (config, req, res) => checkSSO(config, req, res),
-    getLoginUrl: (config, req, res, returnUrl) => getLoginUrl(config, req, res, returnUrl),
+    getLoginUrl: (config, req, returnUrl) => getLoginUrl(config, req, returnUrl),
+    getLogoutUrl: (config, req) => getLogoutUrl(config, req),
     isCasSSO: (config) => Boolean(config && config.casSSO && config.casSSO.enabled),
     login: (config, req, res, returnUrl) => login(config, req, res, returnUrl),
     logout: (config, req, res) => logout(config, req, res),

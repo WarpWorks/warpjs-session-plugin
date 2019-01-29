@@ -46,6 +46,39 @@ describe("index", () => {
         });
     });
 
+    context(".isCasSSO()", () => {
+        after(() => {
+            delete clone.isCasSSO;
+        });
+
+        it("should be a function with 1 param", () => {
+            expect(clone).to.have.property('isCasSSO');
+            expect(clone.isCasSSO).to.be.a('function').and.to.have.lengthOf(1);
+        });
+    });
+
+    context(".getLoginUrl()", () => {
+        after(() => {
+            delete clone.getLoginUrl;
+        });
+
+        it("should be a function with 1 param", () => {
+            expect(clone).to.have.property('getLoginUrl');
+            expect(clone.getLoginUrl).to.be.a('function').and.to.have.lengthOf(2);
+        });
+    });
+
+    context(".getLogoutUrl()", () => {
+        after(() => {
+            delete clone.getLogoutUrl;
+        });
+
+        it("should be a function with 1 param", () => {
+            expect(clone).to.have.property('getLogoutUrl');
+            expect(clone.getLogoutUrl).to.be.a('function').and.to.have.lengthOf(2);
+        });
+    });
+
     describe("after all properties", () => {
         it("should be all tested", () => {
             expect(clone).to.be.empty();
