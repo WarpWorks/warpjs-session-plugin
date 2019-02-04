@@ -8,7 +8,6 @@ module.exports = async (config, warpCore, Persistence, req, res, next) => {
 
     if (isCasSSO && req.query.returnSSO) {
         await casSSO.returnSSO(config, warpCore, Persistence, req, res);
-        next();
     } else {
         const data = cookies.get(config, req, res);
 

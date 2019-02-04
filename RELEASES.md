@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.11 - 2019-02-04
+
+- #5: Fixed infinite redirect loop and login returns to current page.
+
 ## 1.2.10 - 2019-01-29
 
 - #5: Added CAS SSO support.

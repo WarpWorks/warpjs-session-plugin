@@ -3,6 +3,8 @@ const warpjsUtils = require('@warp-works/warpjs-utils');
 
 const casSSO = require('./../middlewares/cas-sso');
 const constants = require('./../constants');
+// const debug = require('./debug')('get');
+const findProperRedirectPage = require('./../../lib/find-proper-redirect-page');
 const fullUrl = require('./../../lib/full-url');
 const libConstants = require('./../../lib/constants');
 
@@ -14,7 +16,10 @@ module.exports = (req, res) => {
     warpjsUtils.wrapWith406(res, {
         html: () => {
             if (isCasSSO) {
-                const returnURL = fullUrl.fromBase('/', fullUrl.fromReq(req));
+                const properRedirectUrl = findProperRedirectPage(req);
+                // debug(`properRedirectUrl=${properRedirectUrl}`);
+
+                const returnURL = fullUrl.fromBase(properRedirectUrl, fullUrl.fromReq(req));
                 casSSO.login(config, req, res, returnURL);
             } else {
                 const baseUrl = req.app.get('base-url');
