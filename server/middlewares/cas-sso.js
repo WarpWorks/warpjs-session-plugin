@@ -113,12 +113,14 @@ const validate = async (config, req, res, serviceUrl, ticket) => {
 };
 
 const returnSSO = async (config, warpCore, Persistence, req, res) => {
+    debug(`returnSSO(): url=${req.originalUrl}`);
     const returnUrl = fullUrl.fromReq(req);
 
     const ticket = returnUrl.searchParams.get(PARAMS.TICKET);
     returnUrl.searchParams.delete('ticket');
 
     if (ticket) {
+        debug(`returnSSO(): url=${req.originalUrl}: found ticket.`);
         const casSsoUser = await validate(config, req, res, returnUrl, ticket);
         const domain = await warpCore.getDomainByName(config.domainName);
         const accountEntity = domain.getEntityByName(config.users.entity);
@@ -127,27 +129,33 @@ const returnSSO = async (config, warpCore, Persistence, req, res) => {
             const accounts = await accountEntity.getDocuments(persistence, { [config.casSSO.userAttribute]: casSsoUser.id });
             if (accounts && accounts.length) {
                 if (accounts.length !== 1) {
+                    debug(`returnSSO(): url=${req.originalUrl}: too many accounts: ${accounts.length}.`);
                     throw new CasSsoError(`${accounts.length} accounts found for ${casSsoUser.id}.`);
                 } else {
                     const accountInstance = accounts[0];
                     const user = await userInfo(persistence, accountEntity, accountInstance);
                     cookies.send(config, req, res, { casSSO: true, user });
+                    debug(`returnSSO(): url=${req.originalUrl}: user=`, user);
                 }
             } else {
                 // TODO: Create the account.
                 debug(`Account not found, need to create it.`);
             }
             returnUrl.searchParams.delete(PARAMS.RETURN_SSO);
+            debug(`returnSSO(): url=${req.originalUrl}: redirecting to ${returnUrl.toString()}`);
             res.redirect(returnUrl.toString());
         } finally {
+            debug(`returnSSO(): url=${req.originalUrl}: persistence.close().`);
             persistence.close();
         }
     } else {
+        debug(`returnSSO(): url=${req.originalUrl}: NO found ticket.`);
         // There is no ticket, just send user to page without returnSSO param.
         returnUrl.searchParams.delete(PARAMS.RETURN_SSO);
 
         cookies.send(config, req, res, { casSSO: true });
 
+        debug(`returnSSO(): url=${req.originalUrl}: redirecting to ${returnUrl.toString()}`);
         res.redirect(returnUrl.toString());
     }
 };
