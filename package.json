@@ -1,6 +1,6 @@
 {
   "name": "@warp-works/warpjs-session-plugin",
-  "version": "1.2.11",
+  "version": "1.2.12",
   "description": "Session Management plug-in for WarpJS",
   "main": "index.js",
   "scripts": {
@@ -78,7 +78,7 @@
     "hbs-utils": "0.0.x",
     "load-grunt-config": "~1.0.1",
     "mocha": "5.2.x",
-    "nyc": "~13.1.0",
+    "nyc": "~13.2.0",
     "time-grunt": "~2.0.0",
     "webpack": "2.7.0"
   },
