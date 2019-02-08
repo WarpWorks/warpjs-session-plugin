@@ -56,7 +56,7 @@ const checkSSO = (config, req, res) => {
     ssoLoginUrl.searchParams.set(PARAMS.SERVICE, serviceUrl.toString());
     ssoLoginUrl.searchParams.set(PARAMS.GATEWAY, true);
     // debug(`checkSSO(): Redirecting to ${ssoLoginUrl.toString()}`);
-    res.redirect(ssoLoginUrl.toString());
+    res.redirect(303, ssoLoginUrl.toString());
 };
 
 const getLoginUrl = (config, req, returnUrl) => {
@@ -77,11 +77,11 @@ const getLogoutUrl = (config, req) => {
 };
 
 const login = (config, req, res, returnUrl) => {
-    res.redirect(getLoginUrl(config, req, returnUrl));
+    res.redirect(303, getLoginUrl(config, req, returnUrl));
 };
 
 const logout = (config, req, res) => {
-    res.redirect(getLogoutUrl(config, req));
+    res.redirect(303, getLogoutUrl(config, req));
 };
 
 const validate = async (config, req, res, serviceUrl, ticket) => {
@@ -139,11 +139,11 @@ const returnSSO = async (config, warpCore, Persistence, req, res) => {
                 }
             } else {
                 // TODO: Create the account.
-                debug(`Account not found, need to create it.`);
+                debug(`*** TODO: Account not found for '${casSsoUser.id}', need to create it ***`);
             }
             returnUrl.searchParams.delete(PARAMS.RETURN_SSO);
             debug(`returnSSO(): url=${req.originalUrl}: redirecting to ${returnUrl.toString()}`);
-            res.redirect(returnUrl.toString());
+            res.redirect(303, returnUrl.pathname);
         } finally {
             debug(`returnSSO(): url=${req.originalUrl}: persistence.close().`);
             persistence.close();
@@ -156,7 +156,7 @@ const returnSSO = async (config, warpCore, Persistence, req, res) => {
         cookies.send(config, req, res, { casSSO: true });
 
         debug(`returnSSO(): url=${req.originalUrl}: redirecting to ${returnUrl.toString()}`);
-        res.redirect(returnUrl.toString());
+        res.redirect(303, returnUrl.pathname);
     }
 };
 

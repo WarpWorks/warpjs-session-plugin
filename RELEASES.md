@@ -1,5 +1,10 @@
 # Releases
 
+## 1.2.13 - 2019-02-08
+
+- #5: Changed SameSite=Lax instead of Strict because it breaks the flow on
+  AWS-Docker.
+
 ## 1.2.12 - 2019-02-05
 
 - #5: Trying removing a dangling call to `next()` in middleware.
