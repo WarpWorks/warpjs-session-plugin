@@ -5,9 +5,11 @@ const hbsUtils = require('hbs-utils')(hbs);
 const path = require('path');
 const warpjsUtils = require('@warp-works/warpjs-utils');
 
+const casSSO = require('./middlewares/cas-sso');
 const constants = require('./../lib/constants');
 // const debug = require('./debug.js')('app.js');
 const routes = require('./routes');
+const ssoRoutes = require('./sso-routes');
 
 const repoRoot = path.dirname(require.resolve('./../package.json'));
 
@@ -44,6 +46,10 @@ module.exports = (config, warpCore, Persistence, baseUrl, staticUrl) => {
     app.use('/assets', express.static(path.join(repoRoot, 'assets')));
 
     app.use(routes('/', baseUrl || '/').router);
+
+    if (casSSO.isCasSSO(config)) {
+        app.use('/sso', ssoRoutes('/sso', baseUrl || '/').router);
+    }
 
     return app;
 };

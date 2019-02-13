@@ -4,15 +4,17 @@ const cookies = require('./../../lib/cookies');
 const debug = require('./debug.js')('warpjs-user');
 
 module.exports = async (config, warpCore, Persistence, req, res, next) => {
-    debug(`url=${req.originalUrl}: start`);
+    // debug(`url=${req.originalUrl}: start`);
     const isCasSSO = casSSO.isCasSSO(config);
+    // debug(`isCasSSO=${isCasSSO}`);
 
-    if (isCasSSO && req.query.returnSSO) {
-        debug(`url=${req.originalUrl}: isCasSSO && returnSSO START`);
+    if (isCasSSO && casSSO.isValidKey(config, req)) {
+        // If the system has a key and is valid, then just by pass the user SSO
+        // check.
+        next();
+    } else if (isCasSSO && req.query.returnSSO) {
         await casSSO.returnSSO(config, warpCore, Persistence, req, res);
-        debug(`url=${req.originalUrl}: isCasSSO && returnSSO DONE`);
     } else {
-        debug(`url=${req.originalUrl}: Normal flow START`);
         const data = cookies.get(config, req, res);
 
         if (data.error) {
@@ -24,11 +26,8 @@ module.exports = async (config, warpCore, Persistence, req, res, next) => {
         }
 
         if (isCasSSO && !data.casSSO) {
-            debug(`url=${req.originalUrl}: Need checkSSO() START`);
             casSSO.checkSSO(config, req, res);
-            debug(`url=${req.originalUrl}: Need checkSSO() DONE`);
         } else {
-            debug(`all set, go to next middleware`);
             next();
         }
     }

@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.14 - 2019-02-13
+
+- #5: Added list of companies and company info.
+
 ## 1.2.13 - 2019-02-08
 
 - #5: Changed SameSite=Lax instead of Strict because it breaks the flow on

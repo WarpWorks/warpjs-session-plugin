@@ -160,11 +160,25 @@ const returnSSO = async (config, warpCore, Persistence, req, res) => {
     }
 };
 
+const isValidKey = (config, req) => {
+    const apiKey = req.headers['x-warpjs-cas-sso-key'];
+    if (apiKey) {
+        const apiKeyConfig = config && config.casSSO && config.casSSO.apiKeys ? config.casSSO.apiKeys[apiKey] : null;
+        if (apiKeyConfig) {
+            const remoteAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.address().address;
+            return Boolean(apiKeyConfig && apiKeyConfig.IPs && apiKeyConfig.IPs.indexOf(remoteAddress) !== -1);
+        }
+    }
+
+    return false;
+};
+
 module.exports = Object.freeze({
     checkSSO: (config, req, res) => checkSSO(config, req, res),
     getLoginUrl: (config, req, returnUrl) => getLoginUrl(config, req, returnUrl),
     getLogoutUrl: (config, req) => getLogoutUrl(config, req),
     isCasSSO: (config) => Boolean(config && config.casSSO && config.casSSO.enabled),
+    isValidKey: (config, req) => isValidKey(config, req),
     login: (config, req, res, returnUrl) => login(config, req, res, returnUrl),
     logout: (config, req, res) => logout(config, req, res),
     returnSSO: (config, warpCore, Persistence, req, res) => returnSSO(config, warpCore, Persistence, req, res)
