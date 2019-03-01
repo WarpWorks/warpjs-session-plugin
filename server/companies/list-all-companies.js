@@ -1,50 +1,34 @@
-const warpjsUtils = require('@warp-works/warpjs-utils');
-
-const casSSO = require('./../middlewares/cas-sso');
 // const debug = require('./debug')('list-all-companies');
-const fullUrl = require('./../../lib/full-url');
 const instanceResource = require('./../company/resource');
+const { makeResource, sendResource } = require('./../../lib/sso-utils');
 
 module.exports = async (req, res) => {
     const config = req.app.get('warpjs-config');
 
-    const selfUrl = fullUrl.fromReq(req);
-    const resource = warpjsUtils.createResource(selfUrl.toString(), {
-        timestamp: Date.now()
+    const resource = makeResource(req, {
+        description: "List of all companies"
     });
 
-    if (casSSO.isValidKey(config, req)) {
-        const warpCore = req.app.get('warpjs-core');
-        const Persistence = req.app.get('warpjs-persistence');
+    const warpCore = req.app.get('warpjs-core');
+    const Persistence = req.app.get('warpjs-persistence');
 
-        const persistence = new Persistence(config.persistence.host, config.persistence.name);
+    const persistence = new Persistence(config.persistence.host, config.persistence.name);
 
-        try {
-            const domain = await warpCore.getDomainByName(config.domainName);
-            const memberEntity = domain.getEntityByName('Member');
+    try {
+        const domain = await warpCore.getDomainByName(config.domainName);
+        const memberEntity = domain.getEntityByName('Member');
 
-            const memberInstances = await memberEntity.getDocuments(persistence);
+        const memberInstances = await memberEntity.getDocuments(persistence);
 
-            const memberResources = memberInstances.map((memberInstance) => instanceResource(req, memberInstance));
+        const memberResources = memberInstances.map((memberInstance) => instanceResource(req, memberInstance));
 
-            resource.embed('companies', memberResources);
+        resource.embed('companies', memberResources);
 
-            res.status(200)
-                .header('Content-Type', warpjsUtils.constants.HAL_CONTENT_TYPE)
-                .send(resource.toJSON());
-        } catch (err) {
-            resource.message = err.message;
-            res.status(500)
-                .header('Content-Type', warpjsUtils.constants.HAL_CONTENT_TYPE)
-                .send(resource.toJSON());
-        } finally {
-            persistence.close();
-        }
-    } else {
-        resource.message = "Invalid credentials";
-        res.status(403)
-            .header('Content-Type', warpjsUtils.constants.HAL_CONTENT_TYPE)
-            .send(resource.toJSON())
-        ;
+        sendResource(res, 200, resource);
+    } catch (err) {
+        resource.message = err.message;
+        sendResource(res, 500, resource);
+    } finally {
+        persistence.close();
     }
 };
