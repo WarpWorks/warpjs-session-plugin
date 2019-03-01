@@ -1,6 +1,6 @@
 // const debug = require('./debug')('info');
 const instanceResource = require('./../company/resource');
-const { makeResource, sendResource } = require('./../../lib/sso-utils');
+const { ENTITIES, makeResource, sendResource } = require('./../../lib/sso-utils');
 
 module.exports = async (req, res) => {
     const config = req.app.get('warpjs-config');
@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
 
     try {
         const domain = await warpCore.getDomainByName(config.domainName);
-        const memberEntity = domain.getEntityByName('Member');
+        const memberEntity = domain.getEntityByName(ENTITIES.MEMBER);
         const { id } = req.params;
 
         const memberInstance = await memberEntity.getInstance(persistence, id);
