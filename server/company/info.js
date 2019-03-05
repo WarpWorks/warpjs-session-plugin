@@ -1,33 +1,26 @@
 // const debug = require('./debug')('info');
-const instanceResource = require('./../company/resource');
-const { ENTITIES, makeResource, sendResource } = require('./../../lib/sso-utils');
+const serverUtils = require('./../utils');
+const ssoUtils = require('./../../lib/sso-utils');
 
 module.exports = async (req, res) => {
-    const config = req.app.get('warpjs-config');
+    const { id } = req.params;
 
-    const resource = makeResource(req, {
-        description: `Info on company '${req.params.id}'`
+    const resource = ssoUtils.makeResource(req, {
+        description: `Info on company '${id}'`
     });
 
-    const warpCore = req.app.get('warpjs-core');
-    const Persistence = req.app.get('warpjs-persistence');
-
-    const persistence = new Persistence(config.persistence.host, config.persistence.name);
+    const persistence = serverUtils.getPersistence(req);
 
     try {
-        const domain = await warpCore.getDomainByName(config.domainName);
-        const memberEntity = domain.getEntityByName(ENTITIES.MEMBER);
-        const { id } = req.params;
-
+        const memberEntity = await serverUtils.getMemberEntity(req);
         const memberInstance = await memberEntity.getInstance(persistence, id);
 
-        const memberResource = instanceResource(req, memberInstance);
+        const memberResource = ssoUtils.companyResource(req, memberInstance);
         memberResource.timestamp = resource.timestamp;
 
-        sendResource(res, 200, memberResource);
+        ssoUtils.sendResource(res, 200, memberResource);
     } catch (err) {
-        resource.message = err.message;
-        sendResource(res, 500, resource);
+        ssoUtils.sendErrorResource(res, err, resource);
     } finally {
         persistence.close();
     }
