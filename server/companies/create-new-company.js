@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
 
             if (memberInstances && memberInstances.length) {
                 const memberInstance = memberInstances[0];
-                resource.embed('companies', ssoUtils.companyResource(req, memberInstance));
+                resource.embed('items', ssoUtils.companyResource(req, memberInstance));
                 resource.message = "Company exists";
                 ssoUtils.sendResource(res, 200, resource);
             } else {
@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
                     // TODO: Add history to organization.
 
                     const companyResource = ssoUtils.companyResource(req, savedInstance);
-                    resource.embed('companies', companyResource);
+                    resource.embed('items', companyResource);
                     ssoUtils.sendResource(res, 200, resource);
                 } else {
                     resource.message = "Unable to find top instance.";

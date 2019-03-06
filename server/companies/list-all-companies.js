@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
 
         const memberResources = memberInstances.map((memberInstance) => ssoUtils.companyResource(req, memberInstance));
 
-        resource.embed('companies', memberResources);
+        resource.embed('items', memberResources);
 
         ssoUtils.sendResource(res, 200, resource);
     } catch (err) {

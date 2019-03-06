@@ -1,4 +1,4 @@
-const debug = require('./debug')('info');
+const debug = require('./debug')('delete');
 const serverUtils = require('./../utils');
 const ssoUtils = require('./../../lib/sso-utils');
 
@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
     const { id } = req.params;
 
     const resource = ssoUtils.makeResource(req, {
-        description: `Info on company '${id}'`
+        description: `Removing company '${id}'`
     });
 
     const persistence = serverUtils.getPersistence(req);
@@ -14,12 +14,18 @@ module.exports = async (req, res) => {
     try {
         const memberEntity = await serverUtils.getMemberEntity(req);
         const memberInstance = await memberEntity.getInstance(persistence, id);
+
         debug(`memberInstance=`, memberInstance);
-
         if (memberInstance && memberInstance.id) {
-            const memberResource = ssoUtils.companyResource(req, memberInstance);
-            resource.embed('items', memberResource);
+            // TODO: Update parent history
+            // const parentMember = await memberEntity.getParentEntity(memberInstance);
+            // debug(`parentMember=`, parentMember);
 
+            // const parentInstance = await memberEntity.getParentInstance(persistence, memberInstance);
+            // debug(`parentInstance=`, parentInstance);
+
+            await memberEntity.removeDocument(persistence, memberInstance);
+            resource.message = "Company removed";
             ssoUtils.sendResource(res, 200, resource);
         } else {
             resource.message = "Company not found";
