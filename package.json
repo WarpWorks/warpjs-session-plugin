@@ -1,6 +1,6 @@
 {
   "name": "@warp-works/warpjs-session-plugin",
-  "version": "1.2.14",
+  "version": "1.2.15",
   "description": "Session Management plug-in for WarpJS",
   "main": "index.js",
   "scripts": {
@@ -57,7 +57,7 @@
     "babel-preset-stage-0": "6.24.1",
     "body-parser": "1.18.x",
     "cookie-parser": "~1.4.4",
-    "eslint": "~5.13.0",
+    "eslint": "~5.15.1",
     "eslint-config-standard": "~12.0.0",
     "eslint-plugin-html": "~5.0.3",
     "eslint-plugin-import": "~2.16.0",
@@ -72,13 +72,13 @@
     "grunt-contrib-less": "2.0.x",
     "grunt-eslint": "21.0.x",
     "grunt-webpack": "3.1.x",
-    "handlebars": "4.0.x",
+    "handlebars": "~4.1.0",
     "handlebars-loader": "1.7.x",
-    "hbs": "4.0.x",
+    "hbs": "~4.0.3",
     "hbs-utils": "0.0.x",
     "load-grunt-config": "~1.0.1",
-    "mocha": "5.2.x",
-    "nyc": "~13.2.0",
+    "mocha": "~6.0.2",
+    "nyc": "~13.3.0",
     "time-grunt": "~2.0.0",
     "webpack": "2.7.0"
   },
@@ -87,7 +87,7 @@
     "bluebird": "~3.5.3",
     "debug": "~4.1.1",
     "fast-xml-parser": "~3.12.12",
-    "jsonwebtoken": "~8.4.0",
+    "jsonwebtoken": "~8.5.0",
     "lodash": "~4.17.11",
     "node-fetch": "~2.3.0"
   }

@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.15 - 2019-03-07
+
+- #6: Company CRUD.
+
 ## 1.2.14 - 2019-02-13
 
 - #5: Added list of companies and company info.
