@@ -48,6 +48,7 @@ module.exports = async (req, res) => {
                     // TODO: Validate the name
                     resource.message = `Updated name from '${memberInstance.Name}' to '${body.name}'.`;
                     memberInstance.Name = body.name; // FIXME: Use BasicProperty
+                    memberInstance.CompanyName = body.name; // FIXME: Use BasicProperty
                     // TODO: Add history.
                     await memberEntity.updateDocument(persistence, memberInstance);
                 }

@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.16 - 2019-03-14
+
+- #8: Send PUT to PATCH to support SSO implementatiion.
+
 ## 1.2.15 - 2019-03-07
 
 - #6: Company CRUD.
