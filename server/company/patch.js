@@ -41,6 +41,7 @@ module.exports = async (req, res) => {
                             resourceMessage(resource, `Status unchanged.`);
                         } else {
                             resourceMessage(resource, `Updated status from '${memberInstance.Status}' to '${STATUS[body.enabled]}'`);
+                            memberInstance.Status = STATUS[body.enabled];
                             modified = true;
                         }
                     } else {

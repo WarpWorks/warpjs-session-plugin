@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.18 - 2019-03-18
+
+- #7: Fixed enabled: true/false
+
 ## 1.2.17 - 2019-03-18
 
 - #7: Adding handling of company category.
