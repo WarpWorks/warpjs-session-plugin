@@ -42,6 +42,9 @@ module.exports = async (req, res) => {
                         organizationInstance
                     );
                     newMember.Name = name; // FIXME: Use the BasicProperty.
+                    newMember.CompanyName = name; // FIXME: Use the BasicProperty.
+                    newMember.Category = ssoUtils.categories.fromSsoToRh(body.category); // FIXME: Use the Enum.
+
                     const savedInstance = await memberEntity.createDocument(persistence, newMember);
 
                     // TODO: Add history to savedInstance.

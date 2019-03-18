@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.17 - 2019-03-18
+
+- #7: Adding handling of company category.
+
 ## 1.2.16 - 2019-03-14
 
 - #8: Send PUT to PATCH to support SSO implementatiion.
