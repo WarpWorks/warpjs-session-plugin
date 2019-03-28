@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.19 - 2019-03-28
+
+- #10: Fixed SSO session.
+
 ## 1.2.18 - 2019-03-18
 
 - #7: Fixed enabled: true/false
