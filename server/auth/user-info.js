@@ -5,7 +5,6 @@
  *
  *  FIXME: This implementation is specific to a given schema (User->Account).
  */
-const Promise = require('bluebird');
 
 function roleMapper(role) {
     return {
@@ -27,21 +26,16 @@ function userInfoObject(accountInstance, userInstance, roles) {
     };
 }
 
-function userInfo(persistence, accountEntity, accountInstance) {
-    return Promise.resolve()
-        .then(() => accountEntity.getParentEntity(accountInstance))
-        .then((userEntity) => Promise.resolve()
-            .then(() => userEntity.getDocuments(persistence, { _id: accountInstance.parentID }, true))
-            .then((docs) => (docs && docs.length && docs.pop()) || null)
-            .then((userInstance) => Promise.resolve()
-                .then(() => userEntity.getRelationshipByName('Roles'))
-                .then((relationship) => relationship.getDocuments(persistence, userInstance))
-                .then((roles) => roles.map((role) => roleMapper(role)))
-                .then((roles) => userInfoObject(accountInstance, userInstance, roles))
-            )
-        )
-    ;
-}
+const userInfo = async (persistence, accountEntity, accountInstance) => {
+    const userEntity = await accountEntity.getParentEntity(accountInstance);
+    const docs = await userEntity.getDocuments(persistence, { _id: accountInstance.parentID }, true);
+    const userInstance = (docs && docs.length) ? docs.pop() : null;
+
+    const relationship = userEntity.getRelationshipByName('Roles');
+    const roleDocuments = await relationship.getDocuments(persistence, userInstance);
+    const roleObjects = roleDocuments.map((role) => roleMapper(role));
+    await userInfoObject(accountInstance, userInstance, roleObjects);
+};
 
 userInfo.DEFAULT_ADMIN_USER = {
     id: "-1",

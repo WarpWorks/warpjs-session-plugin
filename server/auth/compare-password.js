@@ -1,15 +1,14 @@
 const bcrypt = require('bcrypt-nodejs');
-const Promise = require('bluebird');
 
-module.exports = (clearText, crypted) => new Promise((resolve, reject) => {
+module.exports = async (clearText, crypted) => {
     try {
         if (bcrypt.compareSync(clearText, crypted)) {
-            resolve();
+            return;
         } else {
-            reject(new Error());
+            throw new Error(`Invalid password`);
         }
     } catch (err) {
         // The password might not be a valid bcrypt hash format.
-        reject(new Error());
+        throw new Error(`Invalid password`);
     }
-});
+};
