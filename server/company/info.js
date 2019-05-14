@@ -1,4 +1,4 @@
-const debug = require('./debug')('info');
+// const debug = require('./debug')('info');
 const serverUtils = require('./../utils');
 const ssoUtils = require('./../../lib/sso-utils');
 
@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
     try {
         const memberEntity = await serverUtils.getMemberEntity(req);
         const memberInstance = await memberEntity.getInstance(persistence, id);
-        debug(`memberInstance=`, memberInstance);
+        // debug(`memberInstance=`, memberInstance);
 
         if (memberInstance && memberInstance.id) {
             const memberResource = ssoUtils.companyResource(req, memberInstance);

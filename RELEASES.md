@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.20 - 2019-05-14
+
+- #9: List all users and info on a single user.
+
 ## 1.2.19 - 2019-03-28
 
 - #10: Fixed SSO session.
