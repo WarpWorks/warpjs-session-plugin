@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.21 - 2019-05-14
+
+- Fixed error during promise -> async/await conversion.
+
 ## 1.2.20 - 2019-05-14
 
 - #9: List all users and info on a single user.

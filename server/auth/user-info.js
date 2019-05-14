@@ -34,7 +34,7 @@ const userInfo = async (persistence, accountEntity, accountInstance) => {
     const relationship = userEntity.getRelationshipByName('Roles');
     const roleDocuments = await relationship.getDocuments(persistence, userInstance);
     const roleObjects = roleDocuments.map((role) => roleMapper(role));
-    await userInfoObject(accountInstance, userInstance, roleObjects);
+    return userInfoObject(accountInstance, userInstance, roleObjects);
 };
 
 userInfo.DEFAULT_ADMIN_USER = {
