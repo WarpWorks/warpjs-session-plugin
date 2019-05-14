@@ -9,7 +9,6 @@ const casSSO = require('./middlewares/cas-sso');
 const constants = require('./../lib/constants');
 // const debug = require('./debug.js')('app.js');
 const routes = require('./routes');
-const ssoRoutes = require('./sso-routes');
 
 const repoRoot = path.dirname(require.resolve('./../package.json'));
 
@@ -48,6 +47,7 @@ module.exports = (config, warpCore, Persistence, baseUrl, staticUrl) => {
     app.use(routes('/', baseUrl || '/').router);
 
     if (casSSO.isCasSSO(config)) {
+        const ssoRoutes = require('./sso-routes');
         app.use('/sso', ssoRoutes('/sso', baseUrl || '/').router);
     }
 

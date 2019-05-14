@@ -13,7 +13,9 @@ module.exports = Object.freeze({
     WARPJS_CAS_SSO_REQ_KEY: 'warpjsCasSSO',
     routes: Object.freeze({
         companies: routeName('companies'),
-        company: routeName('company')
+        company: routeName('company'),
+        users: routeName('users'),
+        user: routeName('user')
         // TODO: Get the routes for login and logout.
     })
 });
