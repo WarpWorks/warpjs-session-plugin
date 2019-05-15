@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.22 - 2019-05-15
+
+- #9: SSO create User.
+
 ## 1.2.21 - 2019-05-14
 
 - Fixed error during promise -> async/await conversion.

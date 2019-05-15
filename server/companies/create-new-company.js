@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
                 if (organizationInstances && organizationInstances.length) {
                     const organizationInstance = organizationInstances[0];
                     const relationship = organizationEntity.getRelationshipByName(ssoUtils.RELATIONSHIPS.MEMBERS);
-                    const newMember = organizationEntity.createContentChildForRelationship(
+                    const newMember = memberEntity.createContentChildForRelationship(
                         relationship,
                         organizationEntity,
                         organizationInstance
