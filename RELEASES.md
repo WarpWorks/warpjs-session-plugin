@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.23 - 2019-05-15
+
+- #9: SSO update some fields for User.
+
 ## 1.2.22 - 2019-05-15
 
 - #9: SSO create User.

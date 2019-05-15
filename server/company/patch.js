@@ -2,17 +2,6 @@
 const serverUtils = require('./../utils');
 const ssoUtils = require('./../../lib/sso-utils');
 
-const STATUS = {
-    false: 'Draft',
-    true: 'InheritFromParent'
-};
-
-const VALID_STATUS = [ true, false ];
-
-const resourceMessage = (resource, message) => {
-    resource.message = resource.message ? `${resource.message}; ${message}` : message;
-};
-
 module.exports = async (req, res) => {
     const { id } = req.params;
     const { body } = req;
@@ -36,16 +25,16 @@ module.exports = async (req, res) => {
                 if (body.enabled !== undefined) {
                     foundAtLeastOneChange = true;
 
-                    if (VALID_STATUS.indexOf(body.enabled) !== -1) {
-                        if (memberInstance.Status === STATUS[body.enabled]) { // FIXME: Use Enum
-                            resourceMessage(resource, `Status unchanged.`);
+                    if (ssoUtils.VALID_STATUS.indexOf(body.enabled) !== -1) {
+                        if (memberInstance.Status === ssoUtils.STATUS[body.enabled]) { // FIXME: Use Enum
+                            serverUtils.resourceMessage(resource, `Status unchanged.`);
                         } else {
-                            resourceMessage(resource, `Updated status from '${memberInstance.Status}' to '${STATUS[body.enabled]}'`);
-                            memberInstance.Status = STATUS[body.enabled];
+                            serverUtils.resourceMessage(resource, `Updated status from '${memberInstance.Status}' to '${ssoUtils.STATUS[body.enabled]}'`);
+                            memberInstance.Status = ssoUtils.STATUS[body.enabled];
                             modified = true;
                         }
                     } else {
-                        resourceMessage(resource, `Invalid enabled=${body.enabled}`);
+                        serverUtils.resourceMessage(resource, `Invalid enabled=${body.enabled}`);
                         error = true;
                     }
                 }
@@ -56,10 +45,10 @@ module.exports = async (req, res) => {
                     foundAtLeastOneChange = true;
 
                     if (memberInstance.Name === body.name) { // FIXME: Use BasicProperty
-                        resourceMessage(resource, `Name unchanged`);
+                        serverUtils.resourceMessage(resource, `Name unchanged`);
                     } else {
                         // TODO: Validate the name
-                        resourceMessage(resource, `Updated name from '${memberInstance.Name}' to '${body.name}'`);
+                        serverUtils.resourceMessage(resource, `Updated name from '${memberInstance.Name}' to '${body.name}'`);
                         memberInstance.Name = body.name; // FIXME: Use BasicProperty
                         memberInstance.CompanyName = body.name; // FIXME: Use BasicProperty
                         modified = true;
@@ -71,9 +60,9 @@ module.exports = async (req, res) => {
 
                     const newCategory = ssoUtils.categories.fromSsoToRh(body.category);
                     if (newCategory === memberInstance.Category) { // FIXME: Use Enum
-                        resourceMessage(resource, `Category unchanged`);
+                        serverUtils.resourceMessage(resource, `Category unchanged`);
                     } else {
-                        resourceMessage(resource, `Updated category from '${memberInstance.Category}' to '${newCategory}'`);
+                        serverUtils.resourceMessage(resource, `Updated category from '${memberInstance.Category}' to '${newCategory}'`);
                         memberInstance.Category = newCategory;
                         modified = true;
                     }
@@ -93,7 +82,7 @@ module.exports = async (req, res) => {
                     resource.embed('items', updatedResource);
                     ssoUtils.sendResource(res, 200, resource);
                 } else {
-                    resourceMessage(resource, `Did not find anything to change`);
+                    serverUtils.resourceMessage(resource, `Did not find anything to change`);
                     ssoUtils.sendResource(res, 400, resource);
                 }
             }

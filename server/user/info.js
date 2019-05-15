@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
             ssoUtils.sendResource(res, 200, resource);
         } else {
             resource.message = "User not found";
-            ssoUtils.sendResource(req, 401, resource);
+            ssoUtils.sendResource(res, 401, resource);
         }
     } catch (err) {
         ssoUtils.sendErrorResource(res, err, resource);
