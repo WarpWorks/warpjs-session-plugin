@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
             resource.embed('items', userResource);
             ssoUtils.sendResource(res, 200, resource);
         } else {
-            resource.message = "User not found";
+            serverUtils.resourceErrorMessage(resource, "User not found");
             ssoUtils.sendResource(res, 401, resource);
         }
     } catch (err) {

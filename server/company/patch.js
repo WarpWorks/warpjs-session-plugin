@@ -87,7 +87,7 @@ module.exports = async (req, res) => {
                 }
             }
         } else {
-            resource.message = "Company not found";
+            serverUtils.resourceErrorMessage(resource, "Company not found");
             ssoUtils.sendResource(res, 404, resource);
         }
     } catch (err) {

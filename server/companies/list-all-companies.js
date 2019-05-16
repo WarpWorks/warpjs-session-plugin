@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
         const warpCore = req.app.get('warpjs-core');
 
         const domain = await warpCore.getDomainByName(config.domainName);
-        const memberEntity = domain.getEntityByName(ssoUtils.ENTITIES.MEMBER);
+        const memberEntity = domain.getEntityByName(ssoUtils.ENTITIES.ORGANIZATION);
 
         const memberInstances = await memberEntity.getDocuments(persistence);
 

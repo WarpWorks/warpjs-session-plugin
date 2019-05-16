@@ -25,10 +25,10 @@ module.exports = async (req, res) => {
             // debug(`parentInstance=`, parentInstance);
 
             await memberEntity.removeDocument(persistence, memberInstance);
-            resource.message = "Company removed";
+            serverUtils.resourceMessage(resource, "Company removed");
             ssoUtils.sendResource(res, 200, resource);
         } else {
-            resource.message = "Company not found";
+            serverUtils.resourceErrorMessage(resource, "Company not found");
             ssoUtils.sendResource(res, 404, resource);
         }
     } catch (err) {

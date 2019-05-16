@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
 
         try {
             const domain = await serverUtils.getDomain(req);
-            const memberEntity = domain.getEntityByName(ssoUtils.ENTITIES.MEMBER);
+            const memberEntity = domain.getEntityByName(ssoUtils.ENTITIES.ORGANIZATION);
 
             const memberInstances = await memberEntity.getDocuments(persistence, {
                 Name: new RegExp(`^\\s*${name}\\s*$`, 'i')
@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
             if (memberInstances && memberInstances.length) {
                 const memberInstance = memberInstances[0];
                 resource.embed('items', ssoUtils.companyResource(req, memberInstance));
-                resource.message = "Company exists";
+                serverUtils.resourceMessage(resource, "Company exists");
                 ssoUtils.sendResource(res, 200, resource);
             } else {
                 // Note: The company is a child of the (only?) Organization instance.
@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
                 const organizationInstances = await organizationEntity.getDocuments(persistence);
                 if (organizationInstances && organizationInstances.length) {
                     const organizationInstance = organizationInstances[0];
-                    const relationship = organizationEntity.getRelationshipByName(ssoUtils.RELATIONSHIPS.MEMBERS);
+                    const relationship = organizationEntity.getRelationshipByName(ssoUtils.RELATIONSHIPS.ORGANIZATIONS);
                     const newMember = memberEntity.createContentChildForRelationship(
                         relationship,
                         organizationEntity,
@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
                     resource.embed('items', companyResource);
                     ssoUtils.sendResource(res, 200, resource);
                 } else {
-                    resource.message = "Unable to find top instance.";
+                    serverUtils.resourceErrorMessage(resource, "Unable to find top instance.");
                     ssoUtils.sendResource(res, 500, resource);
                 }
             }
@@ -64,7 +64,7 @@ module.exports = async (req, res) => {
             persistence.close();
         }
     } else {
-        resource.message = "Missing 'name' in payload.";
+        serverUtils.resourceErrorMessage(resource, "Missing 'name' in payload.");
         ssoUtils.sendResource(res, 400, resource);
     }
 };

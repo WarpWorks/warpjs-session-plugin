@@ -2,7 +2,7 @@
 const serverUtils = require('./../utils');
 const ssoUtils = require('./../../lib/sso-utils');
 
-const FIELDS = [ 'contactId', 'username', 'fullname', 'email', 'organization', 'title' ];
+const REQUIRED_FIELDS = [ 'contactId', 'username', 'fullname', 'email', 'organization' ];
 
 module.exports = async (req, res) => {
     const { body } = req;
@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
         description: "Create new user"
     });
 
-    const errors = FIELDS.reduce(
+    const errors = REQUIRED_FIELDS.reduce(
         (memo, field) => {
             if (!body[field] || !body[field].trim()) {
                 return memo.concat(`'${field}'`);
@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
     );
 
     if (errors.length) {
-        resource.message = `Missing ${errors.join(', ')} in payload.`;
+        serverUtils.resourceErrorMessage(resource, `Missing ${errors.join(', ')} in payload.`);
         ssoUtils.sendResource(res, 400, resource);
         return;
     }
@@ -34,14 +34,14 @@ module.exports = async (req, res) => {
         const domain = await serverUtils.getDomain(req);
         const accountEntity = domain.getEntityByName(ssoUtils.ENTITIES.ACCOUNT);
         const userEntity = domain.getEntityByName(ssoUtils.ENTITIES.USER);
-        const memberEntity = domain.getEntityByName(ssoUtils.ENTITIES.MEMBER);
+        const memberEntity = domain.getEntityByName(ssoUtils.ENTITIES.ORGANIZATION);
 
         const contactId = body.contactId.trim();
         const accountDocuments = await accountEntity.getDocuments(persistence, {
             ssoID: contactId
         });
         if (accountDocuments.length) {
-            resource.message = `Contact ID '${contactId}' exists.`;
+            serverUtils.resourceErrorMessage(resource, `Contact ID '${contactId}' exists.`);
             ssoUtils.sendResource(res, 400, resource);
             return;
         }
@@ -51,7 +51,7 @@ module.exports = async (req, res) => {
             UserName: username
         });
         if (accountDocumentsByUsername.length) {
-            resource.message = `Username '${username}' exists.`;
+            serverUtils.resourceErrorMessage(resource, `Username '${username}' exists.`);
             ssoUtils.sendResource(res, 400, resource);
             return;
         }
@@ -90,14 +90,14 @@ module.exports = async (req, res) => {
                 id: memberDocument.id,
                 type: memberEntity.name,
                 typeID: memberEntity.id,
-                desc: body.title.trim(),
+                desc: (body.title || '').trim(),
                 position: 1
             };
             const userMemberRelationship = userEntity.getRelationshipByName(ssoUtils.RELATIONSHIPS.WORKING_FOR);
             await userMemberRelationship.addAssociation(savedUser, data, persistence);
             await userEntity.updateDocument(persistence, savedUser);
         } else {
-            resource.message = `Organization '${body.organization.trim()}' not found.`;
+            serverUtils.resourceErrorMessage(resource, `Organization '${body.organization.trim()}' not found.`);
         }
 
         const userResource = await ssoUtils.userResource(req, persistence, userEntity, savedUser);

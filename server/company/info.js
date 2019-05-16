@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
 
             ssoUtils.sendResource(res, 200, resource);
         } else {
-            resource.message = "Company not found";
+            serverUtils.resourceErrorMessage(resource, "Company not found");
             ssoUtils.sendResource(res, 404, resource);
         }
     } catch (err) {
