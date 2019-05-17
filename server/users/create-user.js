@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
         const domain = await serverUtils.getDomain(req);
         const accountEntity = domain.getEntityByName(ssoUtils.ENTITIES.ACCOUNT);
         const userEntity = domain.getEntityByName(ssoUtils.ENTITIES.USER);
-        const memberEntity = domain.getEntityByName(ssoUtils.ENTITIES.ORGANIZATION);
+        const memberEntity = domain.getEntityByName(ssoUtils.ENTITIES.MEMBER);
 
         const contactId = body.contactId.trim();
         const accountDocuments = await accountEntity.getDocuments(persistence, {

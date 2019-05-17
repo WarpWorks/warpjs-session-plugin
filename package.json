@@ -1,6 +1,6 @@
 {
   "name": "@warp-works/warpjs-session-plugin",
-  "version": "1.2.24",
+  "version": "1.2.25",
   "description": "Session Management plug-in for WarpJS",
   "main": "index.js",
   "scripts": {

@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.25 - 2019-05-16
+
+- #9: Fixed variable name broken during refactoring.
+
 ## 1.2.24 - 2019-05-16
 
 - #9: SSO update user's organization and username.
