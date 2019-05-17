@@ -94,30 +94,31 @@ module.exports = async (req, res) => {
         // organization of the user. So if the first one is not the new
         // organization, we need to remove that first element.
         if (!isUndefined(body.organization)) {
-            const organizationEntity = userEntity.getDomain().getEntityByName(ssoUtils.ENTITIES.ORGANIZATION);
-            const organizationDocuments = await organizationEntity.getDocuments(persistence, {
+            const memberEntity = userEntity.getDomain().getEntityByName(ssoUtils.ENTITIES.MEMBER);
+            const memberDocuments = await memberEntity.getDocuments(persistence, {
                 Name: body.organization
             });
-            const organizationDocument = organizationDocuments.length ? organizationDocuments[0] : null;
-            if (organizationDocument) {
-                const userOrganizationRelationship = userEntity.getRelationshipByName(ssoUtils.RELATIONSHIPS.WORKING_FOR);
+            const memberDocument = memberDocuments.length ? memberDocuments[0] : null;
+            if (memberDocument) {
+                const userMemberRelationship = userEntity.getRelationshipByName(ssoUtils.RELATIONSHIPS.WORKING_FOR);
                 const data = {
-                    id: organizationDocument.id,
-                    type: organizationDocument.type,
-                    typeID: organizationDocument.typeID,
+                    id: memberDocument.id,
+                    type: memberDocument.type,
+                    typeID: memberDocument.typeID,
                     desc: body.title ? body.title.trim() : undefined,
                     position: 1
                 };
-                await userOrganizationRelationship.addAssociation(userDocument, data, persistence);
+                await userMemberRelationship.addAssociation(userDocument, data, persistence);
 
                 // Now, just make sure we reorder the associations.
-                const targetReferences = userOrganizationRelationship.getTargetReferences(userDocument);
+                const targetReferences = userMemberRelationship.getTargetReferences(userDocument);
                 targetReferences.filter((ref) => ref._id === data.id && ref.type === data.type)
                     .concat(targetReferences.filter((ref) => ref._id !== data.id || ref.type !== data.type))
                     .forEach((ref, index) => {
                         ref.position = index + 1;
                     })
                 ;
+                serverUtils.resourceMessage(resource, `Organization/title maybe updated`);
                 foundAtLeastOneChange = true;
             } else {
                 serverUtils.resourceErrorMessage(resource, `Organization '${body.organization}' doesn't exist`);

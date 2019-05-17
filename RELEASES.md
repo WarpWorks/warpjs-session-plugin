@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.26 - 2019-05-16
+
+- #9: Refixed user update after fixing company issues.
+
 ## 1.2.25 - 2019-05-16
 
 - #9: Fixed variable name broken during refactoring.
