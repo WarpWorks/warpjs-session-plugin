@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.27 - 2019-07-22
+
+- WarpWorks/warpjs#254: Fixing new company creation by SSO.
+
 ## 1.2.26 - 2019-05-16
 
 - #9: Refixed user update after fixing company issues.

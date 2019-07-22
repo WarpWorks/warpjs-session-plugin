@@ -37,10 +37,11 @@ module.exports = async (req, res) => {
             // Note: The company is a child of the (only?) Organization instance.
             const organizationEntity = domain.getEntityByName(ssoUtils.ENTITIES.ORGANIZATION);
             const organizationInstances = await organizationEntity.getDocuments(persistence);
+
             if (organizationInstances && organizationInstances.length) {
                 const organizationInstance = organizationInstances[0];
                 const relationship = organizationEntity.getRelationshipByName(ssoUtils.RELATIONSHIPS.MEMBERS);
-                const newMember = organizationEntity.createContentChildForRelationship(
+                const newMember = memberEntity.createContentChildForRelationship(
                     relationship,
                     organizationEntity,
                     organizationInstance
