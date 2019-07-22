@@ -4,14 +4,14 @@
   "description": "Session Management plug-in for WarpJS",
   "main": "index.js",
   "scripts": {
-    "prepare": "grunt",
-    "prepack": "npm -s test",
-    "grunt": "grunt",
+    "pretest": "grunt",
+    "precoverage": "grunt",
+    "prepack": "npm run coverage",
     "coverage:integration": "nyc npm run -s test:integration",
     "coverage:unit": "nyc npm run -s test:unit",
     "coverage": "npm run -s coverage:unit",
-    "test:integration": "mocha \"client/**/*.integration.test.js\" \"server/**/*.integration.test.js\"",
-    "test:unit": "mocha \"*.unit.test.js\" \"lib/**/*.unit.test.js\" \"client/**/*.unit.test.js\" \"server/**/*.unit.test.js\"",
+    "test:integration": "mocha 'client/**/*.integration.test.js' 'server/**/*.integration.test.js'",
+    "test:unit": "mocha '*.unit.test.js' 'lib/**/*.unit.test.js' 'client/**/*.unit.test.js' 'server/**/*.unit.test.js'",
     "test": "npm run -s test:unit"
   },
   "repository": {
