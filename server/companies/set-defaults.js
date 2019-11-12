@@ -1,4 +1,4 @@
-const debug = require('./debug')('set-defaults');
+// const debug = require('./debug')('set-defaults');
 
 module.exports = async (persistence, entity, document) => {
     document.Status = 'Approved'; // FIXME: Use BasicProperty and constant value.
@@ -7,7 +7,7 @@ module.exports = async (persistence, entity, document) => {
     const savedDocument = await entity.createDocument(persistence, document);
 
     const writeAccessRelationship = entity.getRelationshipByName('WriteAccess'); // FIXME: Use constant.
-    debug(`writeAccessRelationship=`, writeAccessRelationship);
+    // debug(`writeAccessRelationship=`, writeAccessRelationship);
     if (writeAccessRelationship) {
         const roleEntity = writeAccessRelationship.getTargetEntity();
         const contentDocuments = await roleEntity.getDocuments(persistence, { Name: 'content' }); // FIXME: Use constant.
