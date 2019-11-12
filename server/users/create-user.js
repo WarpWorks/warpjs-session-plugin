@@ -1,6 +1,7 @@
 // const debug = require('./debug')('create-user');
 const serverUtils = require('./../utils');
 const ssoUtils = require('./../../lib/sso-utils');
+const setDefaults = require('./../companies/set-defaults');
 
 const REQUIRED_FIELDS = [ 'contactId', 'username', 'fullname', 'email', 'organization' ];
 
@@ -67,7 +68,8 @@ module.exports = async (req, res) => {
         );
         newUser.Name = body.fullname;
         newUser.Email = body.email;
-        const savedUser = await userEntity.createDocument(persistence, newUser);
+
+        const savedUser = await setDefaults(persistence, userEntity, newUser);
 
         // Create new account.
         const userAccountRelationship = userEntity.getRelationshipByName(ssoUtils.RELATIONSHIPS.ACCOUNTS);

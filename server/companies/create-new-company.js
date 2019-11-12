@@ -1,8 +1,8 @@
-// const ChangeLogs = require('@warp-works/warpjs-change-logs');
-
 // const debug = require('./debug')('create-new-company');
 const serverUtils = require('./../utils');
 const ssoUtils = require('./../../lib/sso-utils');
+
+const setDefaults = require('./set-defaults');
 
 module.exports = async (req, res) => {
     const { body } = req;
@@ -51,35 +51,8 @@ module.exports = async (req, res) => {
                 newMember.Name = name; // FIXME: Use the BasicProperty.
                 newMember.CompanyName = name; // FIXME: Use the BasicProperty.
                 newMember.Category = ssoUtils.categories.fromSsoToRh(body.category); // FIXME: Use the Enum.
-                newMember.Status = 'Approved'; // FIXME: Use BasicProperty and constant.
-                newMember.Versionable = false;
 
-                const savedInstance = await memberEntity.createDocument(persistence, newMember);
-
-                const writeAccessRelationship = memberEntity.getRelationshipByName('WriteAccess'); // FIXME: Use constants.
-                if (writeAccessRelationship) {
-                    const roleEntity = writeAccessRelationship.getTargetEntity();
-                    const contentDocuments = await roleEntity.getDocuments(persistence, { Name: 'content' });
-
-                    if (contentDocuments.length === 1) {
-                        const contentDocument = contentDocuments[0];
-                        const data = {
-                            id: contentDocument.id,
-                            type: contentDocument.type,
-                            typeID: domain.getEntityByInstance(contentDocument).id,
-                            desc: "Created by SSO sync"
-                        };
-
-                        await writeAccessRelationship.addAssociation(savedInstance, data, persistence);
-                        await memberEntity.updateDocument(persistence, savedInstance);
-                    } else {
-                        // eslint-disable-next-line no-console
-                        console.error(`Invalid contentDocuments=`, contentDocuments.map((contentDocument) => contentDocument.Name));
-                    }
-                }
-
-                // TODO: Add history to savedInstance.
-                // TODO: Add history to organization.
+                const savedInstance = await setDefaults(persistence, memberEntity, newMember);
 
                 const companyResource = ssoUtils.companyResource(req, savedInstance);
                 resource.embed('items', companyResource);
