@@ -1,6 +1,9 @@
-const casSSO = require('./cas-sso');
+const searchEngines = require('@quoin/search-engines');
+
 const constants = require('./../constants');
 const cookies = require('./../../lib/cookies');
+
+const casSSO = require('./cas-sso');
 const debug = require('./debug.js')('warpjs-user');
 
 module.exports = async (config, warpCore, Persistence, req, res, next) => {
@@ -26,7 +29,11 @@ module.exports = async (config, warpCore, Persistence, req, res, next) => {
         }
 
         if (isCasSSO && !data.casSSO) {
-            casSSO.checkSSO(config, req, res);
+            if (searchEngines.match(req.connection.remoteAddress, req.get('User-Agent'))) {
+                next();
+            } else {
+                casSSO.checkSSO(config, req, res);
+            }
         } else {
             next();
         }

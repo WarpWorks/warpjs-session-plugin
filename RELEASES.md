@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.29 - 2019-12-06
+
+- Adding check for search engines to by-pass SSO.
+
 ## 1.2.28 - 2019-11-11
 
 - WarpWorks/warpjs#289: Fixed Status, Versionable, and WriteAccess on member and user creation.
