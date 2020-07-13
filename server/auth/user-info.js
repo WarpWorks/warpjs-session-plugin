@@ -22,6 +22,7 @@ function userInfoObject(accountInstance, userInstance, roles) {
         type: userInstance.type,
         Name: userInstance.Name,
         UserName: accountInstance.UserName,
+        Email: userInstance.Email,
         Roles: roles
     };
 }
@@ -42,6 +43,7 @@ userInfo.DEFAULT_ADMIN_USER = {
     type: "User",
     Name: "Default admin",
     UserName: "admin",
+    Email: "noreply@nowhere.com",
     Roles: [{
         type: "Role",
         Name: "admin",

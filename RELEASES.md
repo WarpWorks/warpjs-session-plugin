@@ -1,5 +1,9 @@
 # Releases
 
+## 1.2.30 - 2020-07-13
+
+- Adding the email address to the JWT.
+
 ## 1.2.29 - 2019-12-06
 
 - Adding check for search engines to by-pass SSO.
