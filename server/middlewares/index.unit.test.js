@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const cloneDeep = require('lodash/cloneDeep');
 const testHelpers = require('@quoin/node-test-helpers');
 
 const moduleToTest = require('./index');
@@ -21,7 +21,7 @@ describe("server/middlewares/index", () => {
     });
 
     it("should expose known properties", () => {
-        const clone = _.clone(index);
+        const clone = cloneDeep(index);
 
         testHelpers.verifyProperties(clone, 'function', [
             'canAccessAsAdmin',
