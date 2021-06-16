@@ -7,6 +7,9 @@
     "access": "public",
     "tag": "node14"
   },
+  "engines": {
+    "node": ">=14.15.0"
+  },
   "scripts": {
     "prepack": "npm run coverage",
     "precoverage": "grunt check build",
@@ -36,9 +39,6 @@
     "url": "https://github.com/WarpWorks/warpjs-session-plugin/issues"
   },
   "homepage": "https://github.com/WarpWorks/warpjs-session-plugin#readme",
-  "engines": {
-    "node": ">=8.12.0"
-  },
   "peerDependencies": {
     "@quoin/expressjs-routes-info": ">=1.0.0-rc.1",
     "@warp-works/warpjs-utils": ">=2.0.0-rc.1",
