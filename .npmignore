@@ -1,6 +1,7 @@
 /**/*.test.js
 /.*rc
 /*.tgz
+/.github
 /.npmignore
 /.nyc_output
 /client
