@@ -1,0 +1,20 @@
+{
+  "root": true,
+  "extends": "@quoin/eslint-config-quoin",
+  "overrides": [
+    {
+      "files": ["*.test.js"],
+      "env": {
+        "mocha": true
+      }
+    },
+    {
+      "files": ["client/**/*.js"],
+      "extends": "@quoin/eslint-config-quoin/client",
+      "env": {
+        "jquery": true,
+        "node": true
+      }
+    }
+  ]
+}
