@@ -1,5 +1,9 @@
 # Releases
 
+## 2.0.2 - 2021-06-22
+
+- Updated bcrypt lib.
+
 ## 2.0.1 - 2021-06-21
 
 - Merging into master branch and latest tag.
