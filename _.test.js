@@ -1,3 +1,3 @@
 const { filespace } = require('@quoin/node-test-helpers');
 
-module.exports = filespace;
+module.exports = (filename) => filespace(filename, __dirname);
