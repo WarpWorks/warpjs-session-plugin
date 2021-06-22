@@ -1,5 +1,9 @@
 # Releases
 
+## 2.0.1 - 2021-06-21
+
+- Merging into master branch and latest tag.
+
 ## 1.2.30 - 2020-07-13
 
 - Adding the email address to the JWT.
