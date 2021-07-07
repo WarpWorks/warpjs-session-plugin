@@ -6,7 +6,8 @@ const filespace = require('./_.test');
 
 describe(filespace(__filename), () => {
     const CLEARTEXT = 'foobar';
-    const BCRYPTED = '$2a$10$NIik9eMIsllNBgVlRbiFJ.2N.1tMCMNaXZEHwQsBoDuEGWfICHlzG';
+    // const BCRYPTED = '$2a$10$NIik9eMIsllNBgVlRbiFJ.2N.1tMCMNaXZEHwQsBoDuEGWfICHlzG';
+    const BCRYPTED = 'foobar';
 
     it('exports a function with 2 params', () => {
         expect(moduleToTest).to.be.a('function').and.to.have.lengthOf(2);
