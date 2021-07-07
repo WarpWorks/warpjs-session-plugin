@@ -1,10 +1,11 @@
 {
   "name": "@warp-works/warpjs-session-plugin",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Session Management plug-in for WarpJS",
   "main": "index.js",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "tag": "fsi"
   },
   "engines": {
     "node": ">=14.15.0"
@@ -87,7 +88,6 @@
   },
   "dependencies": {
     "@quoin/search-engines": "^2.0.1",
-    "bcrypt": "^5.0.1",
     "bluebird": "~3.7.2",
     "debug": "^4.3.2",
     "fast-xml-parser": "^3.19.0",
