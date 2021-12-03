@@ -50,7 +50,7 @@ module.exports = async (req, res) => {
                 );
                 newMember.Name = name; // FIXME: Use the BasicProperty.
                 newMember.CompanyName = name; // FIXME: Use the BasicProperty.
-                newMember.Category = ssoUtils.categories.fromSsoToRh(body.category); // FIXME: Use the Enum.
+                newMember.Category = await ssoUtils.categories.fromSsoToRh(req, body.category); // FIXME: Use the Enum.
 
                 const savedInstance = await setDefaults(persistence, memberEntity, newMember);
 

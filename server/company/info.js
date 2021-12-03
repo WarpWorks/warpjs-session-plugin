@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
         // debug(`memberInstance=`, memberInstance);
 
         if (memberInstance && memberInstance.id) {
-            const memberResource = ssoUtils.companyResource(req, memberInstance);
+            const memberResource = await ssoUtils.companyResource(req, memberInstance);
             resource.embed('items', memberResource);
 
             ssoUtils.sendResource(res, 200, resource);

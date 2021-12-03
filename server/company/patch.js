@@ -58,7 +58,7 @@ module.exports = async (req, res) => {
                 if (body.category) {
                     foundAtLeastOneChange = true;
 
-                    const newCategory = ssoUtils.categories.fromSsoToRh(body.category);
+                    const newCategory = await ssoUtils.categories.fromSsoToRh(req, body.category);
                     if (newCategory === memberInstance.Category) { // FIXME: Use Enum
                         serverUtils.resourceMessage(resource, `Category unchanged`);
                     } else {
