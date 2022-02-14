@@ -1,4 +1,6 @@
 // const debug = require('./debug')('list-all-companies');
+const Promise = require('bluebird');
+
 const serverUtils = require('./../utils');
 const ssoUtils = require('./../../lib/sso-utils');
 
@@ -18,7 +20,10 @@ module.exports = async (req, res) => {
 
         const memberInstances = await memberEntity.getDocuments(persistence);
 
-        const memberResources = memberInstances.map((memberInstance) => ssoUtils.companyResource(req, memberInstance));
+        const memberResources = await Promise.map(memberInstances, async (memberInstance) => {
+            const companyResource = await ssoUtils.companyResource(req, memberInstance);
+            return companyResource;
+        });
 
         resource.embed('items', memberResources);
 

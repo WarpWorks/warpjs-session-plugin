@@ -1,5 +1,9 @@
 # Releases
 
+## 2.0.6 - 2022-02-11
+
+- Fix list of companies API request.
+
 ## 2.0.2 - 2021-06-22
 
 - Updated bcrypt lib.
